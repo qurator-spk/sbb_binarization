@@ -482,14 +482,12 @@ class sbb_binarize:
         #img_fin= cv2.medianBlur(img_fin, 5)
         if self.save is not None:
             cv2.imwrite('./'+self.save,img_last)
-        plt.imshow(img_last)
-        plt.show()
 def main():
     parser=argparse.ArgumentParser()
     
     parser.add_argument('-i','--image', dest='inp1', default=None, help='directory of alto files which have to be transformed.')
     parser.add_argument('-p','--patches', dest='inp3', default=False, help='use patches of image for prediction or should image resize be applied to be fit for model. this parameter should be true or false')
-    parser.add_argument('-s','--save', dest='inp4', default=False, help='save prediction with agive name here. The name and format should be given (0045.tif).')
+    parser.add_argument('-s','--save', dest='inp4', default=False, help='save prediction with agive name in the same directory you are. The name and format should be given (0045.tif).')
     parser.add_argument('-m','--model', dest='inp2', default=None, help='model directory and name should be provided here.')
     parser.add_argument('-gt','--groundtruth', dest='inp5', default=None, help='ground truth directory if you want to see the iou of prediction.')
     parser.add_argument('-mw','--model_weights', dest='inp6', default=None, help='previous model weights which are saved.')
