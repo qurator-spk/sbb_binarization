@@ -2,7 +2,7 @@
 This tool does binarization!!
 
 # Installation
-Run ./make
+Run `./make`
 
 # Usage 
 `sbb_binarize -m <directory of models> -i <image> 
