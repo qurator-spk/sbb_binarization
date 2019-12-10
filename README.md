@@ -8,7 +8,6 @@ Run ./make
 `sbb_binarize -m <directory of models> -i <image> 
 -p <set it true in order to let model see image in patches> 
 -s <provide a directory with a given ouput name and format. The result will be saved here>`
-  example script: sbb_binarize -m ./models -i image.tif -p true -s ./image_bin.tif
 # Models
 Models can be found here
 https://file.spk-berlin.de:8443/binarization_models/
