@@ -1,13 +1,17 @@
-# sbb_binarization
-This tool does binarization!!
+# Binarization
+> Binarization for document images
 
-# Installation
-Run `./make`
+## Introduction
+This tool performs document image binarization for OCR using a trained model.
 
-# Usage 
+## Installation
+`./make`
+
+## Models
+Pretrained models can be downloaded from here:   
+~~https://file.spk-berlin.de:8443/binarization_models/~~
+
+## Usage 
 `sbb_binarize -m <directory of models> -i <image> 
--p <set it true in order to let model see image in patches> 
--s <provide a directory with a given ouput name and format. The result will be saved here>`
-# Models
-Models can be found here
-https://file.spk-berlin.de:8443/binarization_models/
+-p <set to true in order to let the model see image in patches> 
+-s <provide a directory with a given ouput name and format. The result will be saved here.>`
