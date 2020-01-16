@@ -7,7 +7,7 @@ This tool performs document image binarization for OCR using a trained model.
 ## Installation
 `./make`
 
-## Models
+### Models
 Pretrained models can be downloaded from here:   
 https://qurator-data.de/sbb_binarization/
 
