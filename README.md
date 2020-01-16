@@ -9,7 +9,7 @@ This tool performs document image binarization for OCR using a trained model.
 
 ## Models
 Pretrained models can be downloaded from here:   
-~~https://file.spk-berlin.de:8443/binarization_models/~~
+https://qurator-data.de/sbb_binarization/
 
 ## Usage 
 `sbb_binarize -m <directory of models> -i <image> 
