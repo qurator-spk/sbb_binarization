@@ -1,0 +1,26 @@
+{
+  "version": "0.0.1",
+  "git_url": "https://github.com/qurator-spk/sbb_binarization",
+  "tools": {
+    "ocrd-sbb-binarize": {
+      "executable": "ocrd-sbb-binarize",
+      "categories": ["Image preprocessing"],
+      "description": "Binarize input image",
+      "steps": ["preprocessing/optimization/binarization"],
+      "input_file_grp": [
+        "OCR-D-IMG"
+      ],
+      "output_file_grp": [
+        "OCR-D-BIN"
+      ],
+      "parameters": {
+        "model": {
+          "type": "string",
+          "format": "file",
+          "cacheable": true,
+          "description": "Path to directory containing models to be used (See https://qurator-data.de/sbb_binarization/)"
+        }
+      }
+    }
+  }
+}
