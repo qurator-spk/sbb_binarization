@@ -22,7 +22,7 @@ setup(
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
-            'sbb_binarize=sbb_binarize.sbb_binarize:main',
+            'sbb_binarize=sbb_binarize.cli:main',
         ]
     },
 )

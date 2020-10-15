@@ -2,7 +2,6 @@
 Tool to load model and binarize a given image.
 """
 
-from argparse import ArgumentParser
 from os import listdir
 from os.path import join
 from warnings import catch_warnings, simplefilter
@@ -16,7 +15,7 @@ import tensorflow as tf
 with catch_warnings():
     simplefilter("ignore")
 
-class sbb_binarize:
+class SbbBinarizer:
 
     # TODO use True/False for patches
     def __init__(self, image, model, patches='false', save=None):
@@ -218,21 +217,3 @@ class sbb_binarize:
         img_last = (img_last[:, :] == 0)*255
         if self.save:
             cv2.imwrite(self.save, img_last)
-
-def main():
-    parser = ArgumentParser()
-
-    parser.add_argument('-i', '--image', dest='inp1', default=None, help='image.')
-    parser.add_argument('-p', '--patches', dest='inp3', default=False, help='by setting this parameter to true you let the model to see the image in patches.')
-    parser.add_argument('-s', '--save', dest='inp4', default=False, help='save prediction with a given name here. The name and format should be given (outputname.tif).')
-    parser.add_argument('-m', '--model', dest='inp2', default=None, help='models directory.')
-
-    options = parser.parse_args()
-
-    possibles = globals()
-    possibles.update(locals())
-    x = sbb_binarize(options.inp1, options.inp2, options.inp3, options.inp4)
-    x.run()
-
-if __name__ == "__main__":
-    main()
