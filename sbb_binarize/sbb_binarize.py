@@ -8,6 +8,7 @@ from os.path import join
 from warnings import catch_warnings, simplefilter
 
 import numpy as np
+from PIL import Image
 import cv2
 environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 stderr = sys.stderr
@@ -23,9 +24,10 @@ class SbbBinarizer:
 
     # TODO use True/False for patches
     def __init__(self, model, image=None, image_path=None, patches='false', save=None):
-        if not(image or image_path) or (image and image_path):
-            raise ValueError("Must pass either a PIL image or an image_path")
-        if image:
+        if (image is not None and image_path is not None) or \
+               (image is None and image_path is None):
+            raise ValueError("Must pass either a opencv2 image or an image_path")
+        if image is not None:
             self.image = image
         else:
             self.image = cv2.imread(self.image)

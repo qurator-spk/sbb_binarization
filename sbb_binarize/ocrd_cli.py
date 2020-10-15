@@ -4,7 +4,11 @@ import os.path
 from pkg_resources import resource_string
 from json import loads
 
+from PIL import Image
+import numpy as np
+import cv2
 from click import command
+
 from ocrd_utils import (
     getLogger,
     assert_file_grp_cardinality,
@@ -21,12 +25,30 @@ from .sbb_binarize import SbbBinarizer
 OCRD_TOOL = loads(resource_string(__name__, 'ocrd-tool.json').decode('utf8'))
 TOOL = 'ocrd-sbb-binarize'
 
+def cv2pil(img):
+    color_coverted = cv2.cvtColor(img, cv2.COLOR_BGRA2RGB)
+    return Image.fromarray(color_coverted)
+
+def pil2cv(img):
+    # from ocrd/workspace.py
+    color_conversion = cv2.COLOR_GRAY2BGR if img.mode in ('1', 'L') else  cv2.COLOR_RGB2BGR
+    pil_as_np_array = np.array(img).astype('uint8') if img.mode == '1' else np.array(img)
+    return cv2.cvtColor(pil_as_np_array, color_conversion)
+
 class SbbBinarizeProcessor(Processor):
 
     def __init__(self, *args, **kwargs):
         kwargs['ocrd_tool'] = OCRD_TOOL['tools'][TOOL]
         kwargs['version'] = OCRD_TOOL['version']
         super().__init__(*args, **kwargs)
+
+    def _run_binarizer(self, img):
+        return cv2pil(
+                SbbBinarizer(
+                    image=pil2cv(img),
+                    model=self.model_path,
+                    patches=self.use_patches,
+                    save=None).run())
 
     def process(self):
         """
@@ -37,8 +59,8 @@ class SbbBinarizeProcessor(Processor):
         assert_file_grp_cardinality(self.output_file_grp, 1)
 
         oplevel = self.parameter['operation_level']
-        use_patches = self.parameter['patches']
-        model_path = self.parameter['model']
+        self.use_patches = self.parameter['patches'] # pylint: disable=attribute-defined-outside-init
+        self.model_path = self.parameter['model'] # pylint: disable=attribute-defined-outside-init
 
         for n, input_file in enumerate(self.input_files):
             file_id = make_file_id(input_file, self.output_file_grp)
@@ -52,12 +74,7 @@ class SbbBinarizeProcessor(Processor):
             if oplevel == 'page':
                 LOG.info("Binarizing on 'page' level in page '%s'", page_id)
                 page_image, page_xywh, _ = self.workspace.image_from_page(page, page_id)
-                bin_image = SbbBinarizer(
-                    image=page_image,
-                    model=model_path,
-                    patches=use_patches,
-                    save=None
-                ).run()
+                bin_image = self._run_binarizer(page_image)
                 # update METS (add the image file):
                 bin_image_path = self.workspace.save_image_file(bin_image,
                         file_id + '.IMG-BIN',
@@ -74,12 +91,7 @@ class SbbBinarizeProcessor(Processor):
                     region_image, region_xywh = self.workspace.image_from_segment(region, page_image, page_xywh)
 
                     if oplevel == 'region':
-                        region_image_bin = SbbBinarizer(
-                            image=region_image,
-                            model=model_path,
-                            patches=use_patches,
-                            save=None
-                        ).run()
+                        region_image_bin = self._run_binarizer(region_image)
                         region_image_bin_path = self.workspace.save_image_file(
                                 region_image_bin,
                                 "%s_%s.IMG-BIN" % (file_id, region.id),
@@ -94,12 +106,7 @@ class SbbBinarizeProcessor(Processor):
                             LOG.warning("Page '%s' region '%s' contains no text lines", page_id, region.id)
                         for line in lines:
                             line_image, line_xywh = self.workspace.image_from_segment(line, page_image, page_xywh)
-                            line_image_bin = SbbBinarizer(
-                                image=line_image,
-                                model=model_path,
-                                patches=use_patches,
-                                save=None
-                            ).run()
+                            line_image_bin = self._run_binarizer(line_image)
                             line_image_bin_path = self.workspace.save_image_file(
                                     line_image_bin,
                                     "%s_%s_%s.IMG-BIN" % (file_id, region.id, line.id),
