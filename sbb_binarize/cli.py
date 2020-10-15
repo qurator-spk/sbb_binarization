@@ -16,7 +16,12 @@ def main():
 
     options = parser.parse_args()
 
-    binarizer = SbbBinarizer(options.image, options.model, options.patches, options.save)
+    binarizer = SbbBinarizer(
+            image_path=options.image,
+            model=options.model,
+            patches=options.patches,
+            save=options.save
+    )
     binarizer.run()
 
 if __name__ == "__main__":
