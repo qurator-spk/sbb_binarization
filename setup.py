@@ -1,6 +1,28 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+from json import load
+from setuptools import setup, find_packages
 
-import setuptools
-from numpy.distutils.core import Extension, setup
+with open('./ocrd-tool.json', 'r') as f:
+    version = load(f)['version']
 
-setup(name='sbb_binarize',version=1.0,packages=['sbb_binarize'])
+install_requires = open('requirements.txt').read().split('\n')
+
+setup(
+    name='sbb_binarization',
+    version=version,
+    description='Binarization with ',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
+    author='Vahid Rezanezhad',
+    url='https://github.com/qurator-spk/sbb_binarization',
+    license='Apache License 2.0',
+    packages=find_packages(exclude=('tests', 'docs')),
+    include_package_data=True,
+    install_requires=install_requires,
+    entry_points={
+        'console_scripts': [
+            'sbb_binarize=sbb_binarize.sbb_binarize:main',
+        ]
+    },
+)
