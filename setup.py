@@ -23,6 +23,7 @@ setup(
     entry_points={
         'console_scripts': [
             'sbb_binarize=sbb_binarize.cli:main',
+            'ocrd-sbb-binarize=sbb_binarize.ocrd_cli:cli',
         ]
     },
 )

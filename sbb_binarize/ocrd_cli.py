@@ -4,15 +4,17 @@ import os.path
 from pkg_resources import resource_string
 from json import loads
 
+from click import command
 from ocrd_utils import (
     getLogger,
     assert_file_grp_cardinality,
     make_file_id,
     MIMETYPE_PAGE
 )
+from ocrd import Processor
 from ocrd_modelfactory import page_from_file
 from ocrd_models.ocrd_page import AlternativeImageType, to_xml
-from ocrd import Processor
+from ocrd.decorators import ocrd_cli_options, ocrd_cli_wrap_processor
 
 from .sbb_binarize import SbbBinarizer
 
@@ -113,3 +115,8 @@ class SbbBinarizeProcessor(Processor):
                 mimetype=MIMETYPE_PAGE,
                 local_filename=os.path.join(self.output_file_grp, file_id + '.xml'),
                 content=to_xml(pcgts))
+
+@command()
+@ocrd_cli_options
+def cli(*args, **kwargs):
+    return ocrd_cli_wrap_processor(SbbBinarizeProcessor, *args, **kwargs)
