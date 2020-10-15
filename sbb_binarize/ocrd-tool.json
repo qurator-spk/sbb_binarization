@@ -14,7 +14,7 @@
           "type": "string",
           "enum": ["page", "region", "line"],
           "default": "page",
-          "description": "PAGE XML hierarchy level to operate on (currently only page supported"
+          "description": "PAGE XML hierarchy level to operate on"
         },
         "patches": {
           "description": "by setting this parameter to true you let the model to see the image in patches.",

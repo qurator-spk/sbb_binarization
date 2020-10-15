@@ -1,3 +1,5 @@
+# TODO: AlternativeImage 'binarized' comment should be additive
+
 import os.path
 from pkg_resources import resource_string
 from json import loads
@@ -9,13 +11,7 @@ from ocrd_utils import (
     MIMETYPE_PAGE
 )
 from ocrd_modelfactory import page_from_file
-from ocrd_models.ocrd_page import (
-    MetadataItemType,
-    LabelsType, LabelType,
-    AlternativeImageType,
-    TextRegionType,
-    to_xml
-)
+from ocrd_models.ocrd_page import AlternativeImageType, to_xml
 from ocrd import Processor
 
 from .sbb_binarize import SbbBinarizer
@@ -48,24 +44,68 @@ class SbbBinarizeProcessor(Processor):
             LOG.info("INPUT FILE %i / %s", n, page_id)
             pcgts = page_from_file(self.workspace.download_file(input_file))
             self.add_metadata(pcgts)
+            pcgts.set_pcGtsId(file_id)
             page = pcgts.get_Page()
 
             if oplevel == 'page':
                 LOG.info("Binarizing on 'page' level in page '%s'", page_id)
                 page_image, page_xywh, _ = self.workspace.image_from_page(page, page_id)
-                binarizer = SbbBinarizer(image=page_image, model=model_path, patches=use_patches, save=None)
-                bin_image = binarizer.run()
+                bin_image = SbbBinarizer(
+                    image=page_image,
+                    model=model_path,
+                    patches=use_patches,
+                    save=None
+                ).run()
                 # update METS (add the image file):
                 bin_image_path = self.workspace.save_image_file(bin_image,
                         file_id + '.IMG-BIN',
                         page_id=page_id,
                         file_grp=self.output_file_grp)
-                page.add_AlternativeImage(filename=bin_image_path, comment="binarized")
-            else:
-                raise NotImplementedError("Binarization below page level not implemented yet")
+                page.add_AlternativeImage(AlternativeImageType(filename=bin_image_path, comment="binarized"))
 
-            file_id = make_file_id(input_file, self.output_file_grp)
-            pcgts.set_pcGtsId(file_id)
+            else:
+                regions = page.get_AllRegions(['Text', 'Table'])
+                if not regions:
+                    LOG.warning("Page '%s' contains no text/table regions", page_id)
+
+                for region in regions:
+                    region_image, region_xywh = self.workspace.image_from_segment(region, page_image, page_xywh)
+
+                    if oplevel == 'region':
+                        region_image_bin = SbbBinarizer(
+                            image=region_image,
+                            model=model_path,
+                            patches=use_patches,
+                            save=None
+                        ).run()
+                        region_image_bin_path = self.workspace.save_image_file(
+                                region_image_bin,
+                                "%s_%s.IMG-BIN" % (file_id, region.id),
+                                page_id=page_id,
+                                file_grp=self.output_file_grp)
+                        region.add_AlternativeImage(
+                            AlternativeImageType(filename=region_image_bin_path, comments='binarized'))
+
+                    elif oplevel == 'line':
+                        lines = region.get_TextLine()
+                        if not lines:
+                            LOG.warning("Page '%s' region '%s' contains no text lines", page_id, region.id)
+                        for line in lines:
+                            line_image, line_xywh = self.workspace.image_from_segment(line, page_image, page_xywh)
+                            line_image_bin = SbbBinarizer(
+                                image=line_image,
+                                model=model_path,
+                                patches=use_patches,
+                                save=None
+                            ).run()
+                            line_image_bin_path = self.workspace.save_image_file(
+                                    line_image_bin,
+                                    "%s_%s_%s.IMG-BIN" % (file_id, region.id, line.id),
+                                    page_id=page_id,
+                                    file_grp=self.output_file_grp)
+                            line.add_AlternativeImage(
+                                AlternativeImageType(filename=line_image_bin_path, comments='binarized'))
+
             self.workspace.add_file(
                 ID=file_id,
                 file_grp=self.output_file_grp,
