@@ -2,18 +2,19 @@
 Tool to load model and binarize a given image.
 """
 
-from os import listdir
+import sys
+from os import listdir, environ, devnull
 from os.path import join
 from warnings import catch_warnings, simplefilter
 
 import numpy as np
 import cv2
+environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+stderr = sys.stderr
+sys.stderr = open(devnull, 'w')
 from keras.models import load_model
+sys.stderr = stderr
 import tensorflow as tf
-
-# XXX better to set env var before tensorflow import to suppress those specific warnings
-with catch_warnings():
-    simplefilter("ignore")
 
 def resize_image(img_in, input_height, input_width):
     return cv2.resize(img_in, (input_width, input_height), interpolation=cv2.INTER_NEAREST)
