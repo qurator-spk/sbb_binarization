@@ -10,6 +10,12 @@
       "input_file_grp": [],
       "output_file_grp": [],
       "parameters": {
+        "operation_level": {
+          "type": "string",
+          "enum": ["page", "region", "line"],
+          "default": "page",
+          "description": "PAGE XML hierarchy level to operate on (currently only page supported"
+        },
         "patches": {
           "description": "by setting this parameter to true you let the model to see the image in patches.",
           "type": "boolean",
@@ -17,7 +23,7 @@
         },
         "model": {
           "description": "models directory.",
-          "format": "string",
+          "type": "string",
           "required": true
         }
       }
