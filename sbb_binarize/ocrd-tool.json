@@ -1,0 +1,26 @@
+{
+  "version": "0.0.1",
+  "git_url": "https://github.com/qurator-spk/sbb_binarization",
+  "tools": {
+    "ocrd-sbb-binarize": {
+      "executable": "ocrd-sbb-binarize",
+      "description": "Smart binarization with sbb_binarization",
+      "categories": ["Image preprocessing"],
+      "steps": ["preprocessing/optimization/binarization"],
+      "input_file_grp": [],
+      "output_file_grp": [],
+      "parameters": {
+        "patches": {
+          "description": "by setting this parameter to true you let the model to see the image in patches.",
+          "type": "boolean",
+          "default": false
+        },
+        "model": {
+          "description": "models directory.",
+          "format": "string",
+          "required": true
+        }
+      }
+    }
+  }
+}
