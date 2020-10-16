@@ -16,11 +16,6 @@
           "default": "page",
           "description": "PAGE XML hierarchy level to operate on"
         },
-        "patches": {
-          "description": "by setting this parameter to true you let the model to see the image in patches.",
-          "type": "boolean",
-          "default": true
-        },
         "model": {
           "description": "models directory.",
           "type": "string",
