@@ -2,22 +2,15 @@
 sbb_binarize CLI
 """
 
-from argparse import ArgumentParser
+from click import command, option, argument, version_option
 
 from .sbb_binarize import SbbBinarizer
 
-def main():
-    parser = ArgumentParser()
-
-    parser.add_argument('-i', '--image', default=None, help='image.')
-    parser.add_argument('-p', '--patches', default=False, help='by setting this parameter to true you let the model to see the image in patches.')
-    parser.add_argument('-s', '--save', default=False, help='save prediction with a given name here. The name and format should be given (outputname.tif).')
-    parser.add_argument('-m', '--model', default=None, help='models directory.')
-
-    options = parser.parse_args()
-
-    binarizer = SbbBinarizer(model_dir=options.model)
-    binarizer.run(image_path=options.image, patches=options.patches, save=options.save)
-
-if __name__ == "__main__":
-    main()
+@command()
+@version_option()
+@option('--patches/--no-patches', default=True, help='by enabling this parameter you let the model to see the image in patches.')
+@option('--model-dir', '-m', required=True, help='directory containing models for prediction')
+@argument('input_image')
+@argument('output_image')
+def main(patches, model_dir, input_image, output_image):
+    SbbBinarizer(model_dir).run(image_path=input_image, use_patches=patches, save=output_image)
