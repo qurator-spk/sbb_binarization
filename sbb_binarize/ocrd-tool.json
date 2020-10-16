@@ -12,7 +12,7 @@
       "parameters": {
         "operation_level": {
           "type": "string",
-          "enum": ["page", "region", "line"],
+          "enum": ["page", "region"],
           "default": "page",
           "description": "PAGE XML hierarchy level to operate on"
         },
