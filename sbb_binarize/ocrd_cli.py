@@ -1,5 +1,3 @@
-# TODO: AlternativeImage 'binarized' comment should be additive
-
 import os.path
 from pkg_resources import resource_string
 from json import loads
@@ -26,8 +24,7 @@ OCRD_TOOL = loads(resource_string(__name__, 'ocrd-tool.json').decode('utf8'))
 TOOL = 'ocrd-sbb-binarize'
 
 def cv2pil(img):
-    color_coverted = cv2.cvtColor(img, cv2.COLOR_BGRA2RGB)
-    return Image.fromarray(color_coverted)
+    return Image.fromarray(img.as_type('uint8'))
 
 def pil2cv(img):
     # from ocrd/workspace.py
@@ -80,7 +77,7 @@ class SbbBinarizeProcessor(Processor):
                         file_id + '.IMG-BIN',
                         page_id=input_file.pageId,
                         file_grp=self.output_file_grp)
-                page.add_AlternativeImage(AlternativeImageType(filename=bin_image_path, comment=page_xywh['features']+",binarized"))
+                page.add_AlternativeImage(AlternativeImageType(filename=bin_image_path, comment='%s,binarized' % page_xywh['features']))
 
             else:
                 regions = page.get_AllRegions(['Text', 'Table'])
@@ -98,7 +95,7 @@ class SbbBinarizeProcessor(Processor):
                                 page_id=input_file.pageId,
                                 file_grp=self.output_file_grp)
                         region.add_AlternativeImage(
-                            AlternativeImageType(filename=region_image_bin_path, comments=region_xywh['features']+',binarized'))
+                            AlternativeImageType(filename=region_image_bin_path, comments='%s,binarized' % region_xywh['features']))
 
                     elif oplevel == 'line':
                         lines = region.get_TextLine()
@@ -113,7 +110,7 @@ class SbbBinarizeProcessor(Processor):
                                     page_id=input_file.pageId,
                                     file_grp=self.output_file_grp)
                             line.add_AlternativeImage(
-                                AlternativeImageType(filename=line_image_bin_path, comments=line_xywh['features']+',binarized'))
+                                AlternativeImageType(filename=line_image_bin_path, comments='%s,binarized' % line_xywh['features']))
 
             self.workspace.add_file(
                 ID=file_id,
