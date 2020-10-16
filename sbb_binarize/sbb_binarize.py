@@ -42,10 +42,10 @@ class SbbBinarizer:
         n_classes = model.layers[len(model.layers)-1].output_shape[3]
         return model, model_height, model_width, n_classes
 
-    def predict(self, model_name, img, patches):
+    def predict(self, model_name, img, use_patches):
         model, model_height, model_width, n_classes = self.load_model(model_name)
 
-        if patches in ('true', 'True'):
+        if use_patches:
 
             margin = int(0.1 * model_width)
 
@@ -184,8 +184,7 @@ class SbbBinarizer:
             prediction_true = prediction_true.astype(np.uint8)
         return prediction_true[:,:,0]
 
-    # TODO use True/False for patches
-    def run(self, image=None, image_path=None, save=None, patches='false'):
+    def run(self, image=None, image_path=None, save=None, use_patches=False):
         if (image is not None and image_path is not None) or \
                (image is None and image_path is None):
             raise ValueError("Must pass either a opencv2 image or an image_path")
@@ -196,7 +195,7 @@ class SbbBinarizer:
         img_last = 0
         for model_in in list_of_model_files:
 
-            res = self.predict(model_in, image, patches)
+            res = self.predict(model_in, image, use_patches)
 
             img_fin = np.zeros((res.shape[0], res.shape[1], 3))
             res[:, :][res[:, :] == 0] = 2
