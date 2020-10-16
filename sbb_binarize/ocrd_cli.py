@@ -24,7 +24,7 @@ OCRD_TOOL = loads(resource_string(__name__, 'ocrd-tool.json').decode('utf8'))
 TOOL = 'ocrd-sbb-binarize'
 
 def cv2pil(img):
-    return Image.fromarray(img.as_type('uint8'))
+    return Image.fromarray(img.astype('uint8'))
 
 def pil2cv(img):
     # from ocrd/workspace.py
