@@ -39,14 +39,6 @@ class SbbBinarizeProcessor(Processor):
         kwargs['version'] = OCRD_TOOL['version']
         super().__init__(*args, **kwargs)
 
-    def _run_binarizer(self, img):
-        return cv2pil(
-                SbbBinarizer(
-                    image=pil2cv(img),
-                    model=self.model_path,
-                    patches=self.use_patches,
-                    save=None).run())
-
     def process(self):
         """
         Binarize with sbb_binarization
@@ -56,8 +48,9 @@ class SbbBinarizeProcessor(Processor):
         assert_file_grp_cardinality(self.output_file_grp, 1)
 
         oplevel = self.parameter['operation_level']
-        self.use_patches = self.parameter['patches'] # pylint: disable=attribute-defined-outside-init
-        self.model_path = self.parameter['model'] # pylint: disable=attribute-defined-outside-init
+        use_patches = self.parameter['patches'] # pylint: disable=attribute-defined-outside-init
+        model_path = self.parameter['model'] # pylint: disable=attribute-defined-outside-init
+        binarizer = SbbBinarizer(model_dir=self.model_path)
 
         for n, input_file in enumerate(self.input_files):
             file_id = make_file_id(input_file, self.output_file_grp)
@@ -71,7 +64,7 @@ class SbbBinarizeProcessor(Processor):
             if oplevel == 'page':
                 LOG.info("Binarizing on 'page' level in page '%s'", page_id)
                 page_image, page_xywh, _ = self.workspace.image_from_page(page, page_id, feature_filter='binarized')
-                bin_image = self._run_binarizer(page_image)
+                bin_image = cv2pil(binarizer.run(image=pil2cv(page_image), patches=use_patches))
                 # update METS (add the image file):
                 bin_image_path = self.workspace.save_image_file(bin_image,
                         file_id + '.IMG-BIN',
@@ -85,7 +78,7 @@ class SbbBinarizeProcessor(Processor):
                     LOG.warning("Page '%s' contains no text/table regions", page_id)
                 for region in regions:
                     region_image, region_xywh = self.workspace.image_from_segment(region, page_image, page_xywh, feature_filter='binarized')
-                    region_image_bin = self._run_binarizer(region_image)
+                    region_image_bin = cv2pil(binarizer.run(image=pil2cv(region_image), patches=use_patches))
                     region_image_bin_path = self.workspace.save_image_file(
                             region_image_bin,
                             "%s_%s.IMG-BIN" % (file_id, region.id),
@@ -100,7 +93,7 @@ class SbbBinarizeProcessor(Processor):
                     LOG.warning("Page '%s' contains no text lines", page_id)
                 for region_id, line in region_line_tuples:
                     line_image, line_xywh = self.workspace.image_from_segment(line, page_image, page_xywh, feature_filter='binarized')
-                    line_image_bin = self._run_binarizer(line_image)
+                    line_image_bin = cv2pil(binarizer.run(image=pil2cv(line_image), patches=use_patches))
                     line_image_bin_path = self.workspace.save_image_file(
                             line_image_bin,
                             "%s_%s_%s.IMG-BIN" % (file_id, region_id, line.id),
