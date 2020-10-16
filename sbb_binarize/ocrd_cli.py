@@ -78,7 +78,7 @@ class SbbBinarizeProcessor(Processor):
                 # update METS (add the image file):
                 bin_image_path = self.workspace.save_image_file(bin_image,
                         file_id + '.IMG-BIN',
-                        page_id=page_id,
+                        page_id=input_file.pageId,
                         file_grp=self.output_file_grp)
                 page.add_AlternativeImage(AlternativeImageType(filename=bin_image_path, comment="binarized"))
 
@@ -95,7 +95,7 @@ class SbbBinarizeProcessor(Processor):
                         region_image_bin_path = self.workspace.save_image_file(
                                 region_image_bin,
                                 "%s_%s.IMG-BIN" % (file_id, region.id),
-                                page_id=page_id,
+                                page_id=input_file.pageId,
                                 file_grp=self.output_file_grp)
                         region.add_AlternativeImage(
                             AlternativeImageType(filename=region_image_bin_path, comments='binarized'))
@@ -110,7 +110,7 @@ class SbbBinarizeProcessor(Processor):
                             line_image_bin_path = self.workspace.save_image_file(
                                     line_image_bin,
                                     "%s_%s_%s.IMG-BIN" % (file_id, region.id, line.id),
-                                    page_id=page_id,
+                                    page_id=input_file.pageId,
                                     file_grp=self.output_file_grp)
                             line.add_AlternativeImage(
                                 AlternativeImageType(filename=line_image_bin_path, comments='binarized'))
