@@ -19,6 +19,7 @@ setup(
     license='Apache License 2.0',
     packages=find_packages(exclude=('tests', 'docs')),
     include_package_data=True,
+    package_data={'': ['*.json', '*.yml', '*.yaml']},
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
