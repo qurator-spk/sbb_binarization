@@ -73,7 +73,7 @@ class SbbBinarizeProcessor(Processor):
 
             if oplevel == 'page':
                 LOG.info("Binarizing on 'page' level in page '%s'", page_id)
-                page_image, page_xywh, _ = self.workspace.image_from_page(page, page_id)
+                page_image, page_xywh, _ = self.workspace.image_from_page(page, page_id, feature_filter='binarized')
                 bin_image = self._run_binarizer(page_image)
                 # update METS (add the image file):
                 bin_image_path = self.workspace.save_image_file(bin_image,
@@ -88,7 +88,7 @@ class SbbBinarizeProcessor(Processor):
                     LOG.warning("Page '%s' contains no text/table regions", page_id)
 
                 for region in regions:
-                    region_image, region_xywh = self.workspace.image_from_segment(region, page_image, page_xywh)
+                    region_image, region_xywh = self.workspace.image_from_segment(region, page_image, page_xywh, feature_filter='binarized')
 
                     if oplevel == 'region':
                         region_image_bin = self._run_binarizer(region_image)
@@ -105,7 +105,7 @@ class SbbBinarizeProcessor(Processor):
                         if not lines:
                             LOG.warning("Page '%s' region '%s' contains no text lines", page_id, region.id)
                         for line in lines:
-                            line_image, line_xywh = self.workspace.image_from_segment(line, page_image, page_xywh)
+                            line_image, line_xywh = self.workspace.image_from_segment(line, page_image, page_xywh, feature_filter='binarized')
                             line_image_bin = self._run_binarizer(line_image)
                             line_image_bin_path = self.workspace.save_image_file(
                                     line_image_bin,
