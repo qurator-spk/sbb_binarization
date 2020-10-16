@@ -19,7 +19,7 @@
         "patches": {
           "description": "by setting this parameter to true you let the model to see the image in patches.",
           "type": "boolean",
-          "default": false
+          "default": true
         },
         "model": {
           "description": "models directory.",
