@@ -4,7 +4,7 @@
   "tools": {
     "ocrd-sbb-binarize": {
       "executable": "ocrd-sbb-binarize",
-      "description": "Smart binarization with sbb_binarization",
+      "description": "Pixelwise binarization with selectional auto-encoders in Keras",
       "categories": ["Image preprocessing"],
       "steps": ["preprocessing/optimization/binarization"],
       "input_file_grp": [],

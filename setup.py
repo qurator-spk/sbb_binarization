@@ -11,7 +11,7 @@ install_requires = open('requirements.txt').read().split('\n')
 setup(
     name='sbb_binarization',
     version=version,
-    description='Binarization with ',
+    description='Pixelwise binarization with selectional auto-encoders in Keras',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     author='Vahid Rezanezhad',
