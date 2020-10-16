@@ -79,38 +79,35 @@ class SbbBinarizeProcessor(Processor):
                         file_grp=self.output_file_grp)
                 page.add_AlternativeImage(AlternativeImageType(filename=bin_image_path, comment='%s,binarized' % page_xywh['features']))
 
-            else:
-                regions = page.get_AllRegions(['Text', 'Table'])
+            elif oplevel == 'region':
+                regions = page.get_AllRegions(['Text', 'Table'], depth=1)
                 if not regions:
                     LOG.warning("Page '%s' contains no text/table regions", page_id)
-
                 for region in regions:
                     region_image, region_xywh = self.workspace.image_from_segment(region, page_image, page_xywh, feature_filter='binarized')
+                    region_image_bin = self._run_binarizer(region_image)
+                    region_image_bin_path = self.workspace.save_image_file(
+                            region_image_bin,
+                            "%s_%s.IMG-BIN" % (file_id, region.id),
+                            page_id=input_file.pageId,
+                            file_grp=self.output_file_grp)
+                    region.add_AlternativeImage(
+                        AlternativeImageType(filename=region_image_bin_path, comments='%s,binarized' % region_xywh['features']))
 
-                    if oplevel == 'region':
-                        region_image_bin = self._run_binarizer(region_image)
-                        region_image_bin_path = self.workspace.save_image_file(
-                                region_image_bin,
-                                "%s_%s.IMG-BIN" % (file_id, region.id),
-                                page_id=input_file.pageId,
-                                file_grp=self.output_file_grp)
-                        region.add_AlternativeImage(
-                            AlternativeImageType(filename=region_image_bin_path, comments='%s,binarized' % region_xywh['features']))
-
-                    elif oplevel == 'line':
-                        lines = region.get_TextLine()
-                        if not lines:
-                            LOG.warning("Page '%s' region '%s' contains no text lines", page_id, region.id)
-                        for line in lines:
-                            line_image, line_xywh = self.workspace.image_from_segment(line, page_image, page_xywh, feature_filter='binarized')
-                            line_image_bin = self._run_binarizer(line_image)
-                            line_image_bin_path = self.workspace.save_image_file(
-                                    line_image_bin,
-                                    "%s_%s_%s.IMG-BIN" % (file_id, region.id, line.id),
-                                    page_id=input_file.pageId,
-                                    file_grp=self.output_file_grp)
-                            line.add_AlternativeImage(
-                                AlternativeImageType(filename=line_image_bin_path, comments='%s,binarized' % line_xywh['features']))
+            elif oplevel == 'line':
+                region_line_tuples = [(r.id, r.get_TextLine()) for r in page.get_AllRegions(['Text'], depth=0)]
+                if not region_line_tuples:
+                    LOG.warning("Page '%s' contains no text lines", page_id)
+                for region_id, line in region_line_tuples:
+                    line_image, line_xywh = self.workspace.image_from_segment(line, page_image, page_xywh, feature_filter='binarized')
+                    line_image_bin = self._run_binarizer(line_image)
+                    line_image_bin_path = self.workspace.save_image_file(
+                            line_image_bin,
+                            "%s_%s_%s.IMG-BIN" % (file_id, region_id, line.id),
+                            page_id=input_file.pageId,
+                            file_grp=self.output_file_grp)
+                    line.add_AlternativeImage(
+                        AlternativeImageType(filename=line_image_bin_path, comments='%s,binarized' % line_xywh['features']))
 
             self.workspace.add_file(
                 ID=file_id,
