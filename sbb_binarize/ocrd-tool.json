@@ -19,7 +19,7 @@
         "model": {
           "description": "models directory.",
           "type": "string",
-          "required": true
+          "required": false
         }
       }
     }

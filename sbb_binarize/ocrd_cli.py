@@ -37,6 +37,14 @@ class SbbBinarizeProcessor(Processor):
     def __init__(self, *args, **kwargs):
         kwargs['ocrd_tool'] = OCRD_TOOL['tools'][TOOL]
         kwargs['version'] = OCRD_TOOL['version']
+        if not(kwargs.get('show_help', None) or kwargs.get('dump_json', None) or kwargs.get('show_version')):
+            if not 'parameter' in kwargs:
+                kwargs['parameter'] = {}
+            if not 'model' in kwargs['parameter']:
+                if 'SBB_BINARIZE_DATA' in os.environ:
+                    kwargs['parameter']['model'] = os.environ['SBB_BINARIZE_DATA']
+                else:
+                    raise ValueError("Must pass 'model' parameter or set SBB_BINARIZE_DATA environment variable")
         super().__init__(*args, **kwargs)
 
     def process(self):
