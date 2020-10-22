@@ -1,0 +1,27 @@
+{
+  "version": "0.0.1",
+  "git_url": "https://github.com/qurator-spk/sbb_binarization",
+  "tools": {
+    "ocrd-sbb-binarize": {
+      "executable": "ocrd-sbb-binarize",
+      "description": "Pixelwise binarization with selectional auto-encoders in Keras",
+      "categories": ["Image preprocessing"],
+      "steps": ["preprocessing/optimization/binarization"],
+      "input_file_grp": [],
+      "output_file_grp": [],
+      "parameters": {
+        "operation_level": {
+          "type": "string",
+          "enum": ["page", "region"],
+          "default": "page",
+          "description": "PAGE XML hierarchy level to operate on"
+        },
+        "model": {
+          "description": "models directory.",
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  }
+}
