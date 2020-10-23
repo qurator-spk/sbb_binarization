@@ -9,7 +9,7 @@ to black-and-white pixels) for OCR using multiple trained models.
 
 ## Installation
 
-Clone the repository, enter it and run  
+Clone the repository, enter it and run
 
 `pip install .`
 
@@ -19,12 +19,14 @@ Pre-trained models can be downloaded from here:
 
 https://qurator-data.de/sbb_binarization/
 
-## Usage 
+## Usage
 
 ```sh
 sbb_binarize \
+  --patches \
   -m <directory with models> \
-  -i <image file> \
-  -p <set to true to let the model see the image divided into patches> \
-  -s <directory where the results will be saved>`
+  <input image> \
+  <output image>
 ```
+
+**Note** In virtually all cases, the `--patches` flag will improve results.
