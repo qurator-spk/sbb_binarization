@@ -193,7 +193,7 @@ class SbbBinarizer:
                (image is None and image_path is None):
             raise ValueError("Must pass either a opencv2 image or an image_path")
         if image_path is not None:
-            image = cv2.imread(image)
+            image = cv2.imread(image_path)
         self.start_new_session()
         list_of_model_files = glob('%s/*.h5' % self.model_dir)
         img_last = 0
