@@ -18,13 +18,16 @@ from keras.models import load_model
 sys.stderr = stderr
 import tensorflow as tf
 
+import logging
+
 def resize_image(img_in, input_height, input_width):
     return cv2.resize(img_in, (input_width, input_height), interpolation=cv2.INTER_NEAREST)
 
 class SbbBinarizer:
 
-    def __init__(self, model_dir):
+    def __init__(self, model_dir, logger=None):
         self.model_dir = model_dir
+        self.log = logger if logger else logging.getLogger('SbbBinarizer')
 
     def start_new_session(self):
         config = tf.ConfigProto()
@@ -194,7 +197,8 @@ class SbbBinarizer:
         self.start_new_session()
         list_of_model_files = glob('%s/*.h5' % self.model_dir)
         img_last = 0
-        for model_in in list_of_model_files:
+        for n, model_in in enumerate(list_of_model_files):
+            self.log.info('Predicting with model %s [%s/%s]' % (model_in, n + 1, len(list_of_model_files)))
 
             res = self.predict(model_in, image, use_patches)
 

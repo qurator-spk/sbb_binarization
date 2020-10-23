@@ -57,7 +57,7 @@ class SbbBinarizeProcessor(Processor):
 
         oplevel = self.parameter['operation_level']
         model_path = self.parameter['model'] # pylint: disable=attribute-defined-outside-init
-        binarizer = SbbBinarizer(model_dir=model_path)
+        binarizer = SbbBinarizer(model_dir=model_path, logger=LOG)
 
         for n, input_file in enumerate(self.input_files):
             file_id = make_file_id(input_file, self.output_file_grp)
@@ -77,7 +77,7 @@ class SbbBinarizeProcessor(Processor):
                         file_id + '.IMG-BIN',
                         page_id=input_file.pageId,
                         file_grp=self.output_file_grp)
-                page.add_AlternativeImage(AlternativeImageType(filename=bin_image_path, comment='%s,binarized' % page_xywh['features']))
+                page.add_AlternativeImage(AlternativeImageType(filename=bin_image_path, comments='%s,binarized' % page_xywh['features']))
 
             elif oplevel == 'region':
                 regions = page.get_AllRegions(['Text', 'Table'], depth=1)
