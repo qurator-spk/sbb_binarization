@@ -37,6 +37,14 @@ class SbbBinarizeProcessor(Processor):
     def __init__(self, *args, **kwargs):
         kwargs['ocrd_tool'] = OCRD_TOOL['tools'][TOOL]
         kwargs['version'] = OCRD_TOOL['version']
+        if not(kwargs.get('show_help', None) or kwargs.get('dump_json', None) or kwargs.get('show_version')):
+            if not 'parameter' in kwargs:
+                kwargs['parameter'] = {}
+            if not 'model' in kwargs['parameter']:
+                if 'SBB_BINARIZE_DATA' in os.environ:
+                    kwargs['parameter']['model'] = os.environ['SBB_BINARIZE_DATA']
+                else:
+                    raise ValueError("Must pass 'model' parameter or set SBB_BINARIZE_DATA environment variable")
         super().__init__(*args, **kwargs)
 
     def process(self):
@@ -49,7 +57,7 @@ class SbbBinarizeProcessor(Processor):
 
         oplevel = self.parameter['operation_level']
         model_path = self.parameter['model'] # pylint: disable=attribute-defined-outside-init
-        binarizer = SbbBinarizer(model_dir=model_path)
+        binarizer = SbbBinarizer(model_dir=model_path, logger=LOG)
 
         for n, input_file in enumerate(self.input_files):
             file_id = make_file_id(input_file, self.output_file_grp)
@@ -69,7 +77,7 @@ class SbbBinarizeProcessor(Processor):
                         file_id + '.IMG-BIN',
                         page_id=input_file.pageId,
                         file_grp=self.output_file_grp)
-                page.add_AlternativeImage(AlternativeImageType(filename=bin_image_path, comment='%s,binarized' % page_xywh['features']))
+                page.add_AlternativeImage(AlternativeImageType(filename=bin_image_path, comments='%s,binarized' % page_xywh['features']))
 
             elif oplevel == 'region':
                 regions = page.get_AllRegions(['Text', 'Table'], depth=1)
