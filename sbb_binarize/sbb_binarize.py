@@ -3,7 +3,8 @@ Tool to load model and binarize a given image.
 """
 
 import sys
-from os import listdir, environ, devnull
+from glob import glob
+from os import environ, devnull
 from os.path import join
 from warnings import catch_warnings, simplefilter
 
@@ -191,7 +192,7 @@ class SbbBinarizer:
         if image_path is not None:
             image = cv2.imread(image)
         self.start_new_session()
-        list_of_model_files = listdir(self.model_dir)
+        list_of_model_files = glob('%s/*.h5' % self.model_dir)
         img_last = 0
         for model_in in list_of_model_files:
 
