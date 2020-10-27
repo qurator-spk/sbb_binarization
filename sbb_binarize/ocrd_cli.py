@@ -1,4 +1,6 @@
-import os.path
+from os import environ
+from os.path import join
+from pathlib import Path
 from pkg_resources import resource_string
 from json import loads
 
@@ -38,13 +40,16 @@ class SbbBinarizeProcessor(Processor):
         kwargs['ocrd_tool'] = OCRD_TOOL['tools'][TOOL]
         kwargs['version'] = OCRD_TOOL['version']
         if not(kwargs.get('show_help', None) or kwargs.get('dump_json', None) or kwargs.get('show_version')):
-            if not 'parameter' in kwargs:
-                kwargs['parameter'] = {}
             if not 'model' in kwargs['parameter']:
-                if 'SBB_BINARIZE_DATA' in os.environ:
-                    kwargs['parameter']['model'] = os.environ['SBB_BINARIZE_DATA']
-                else:
-                    raise ValueError("Must pass 'model' parameter or set SBB_BINARIZE_DATA environment variable")
+                raise ValueError("'model' parameter is required")
+            model_path = Path(kwargs['parameter']['model'])
+            if not model_path.is_absolute():
+                if 'SBB_BINARIZE_DATA' in environ:
+                    model_path = Path(environ['SBB_BINARIZE_DATA']).joinpath(model_path)
+                model_path = model_path.resolve()
+            if not model_path.is_dir():
+                raise FileNotFoundError("Does not exist or is not a directory: %s" % model_path)
+            kwargs['parameter']['model'] = str(model_path)
         super().__init__(*args, **kwargs)
 
     def process(self):
@@ -114,7 +119,7 @@ class SbbBinarizeProcessor(Processor):
                 file_grp=self.output_file_grp,
                 pageId=input_file.pageId,
                 mimetype=MIMETYPE_PAGE,
-                local_filename=os.path.join(self.output_file_grp, file_id + '.xml'),
+                local_filename=join(self.output_file_grp, file_id + '.xml'),
                 content=to_xml(pcgts))
 
 @command()
