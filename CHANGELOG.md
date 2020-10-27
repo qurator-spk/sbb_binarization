@@ -4,6 +4,9 @@ Versioned according to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+Changed:
+
+  * Env var `SBB_BINARIZE_DATA` is combined with `model` param now, #9
 
 ## [0.0.3]
 
