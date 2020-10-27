@@ -4,6 +4,11 @@ Versioned according to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [0.0.4] - 2020-10-27
+
+Changed:
+
+  * Env var `SBB_BINARIZE_DATA` is combined with `model` param now, #9
 
 ## [0.0.3]
 
@@ -27,5 +32,6 @@ Fixed:
 Initial release
 
 <!-- link-labels -->
+[0.0.4]: ../../compare/v0.0.4...v0.0.3
 [0.0.3]: ../../compare/v0.0.3...v0.0.2
 [0.0.2]: ../../compare/v0.0.1...v0.0.2
