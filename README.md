@@ -9,7 +9,9 @@
 ## Introduction
 
 This tool performs document image binarization (i.e. transform colour/grayscale
-to black-and-white pixels) for OCR using multiple trained models.
+to black-and-white pixels) for OCR using multiple trained models. 
+
+The method used is based on _Calvo-Zaragoza/Gallego (2019). [A selectional auto-encoder approach for document image binarization](https://arxiv.org/abs/1706.10241)_.
 
 ## Installation
 
