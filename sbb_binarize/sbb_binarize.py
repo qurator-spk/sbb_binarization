@@ -29,6 +29,8 @@ class SbbBinarizer:
         self.model_dir = model_dir
         self.log = logger if logger else logging.getLogger('SbbBinarizer')
 
+        self.start_new_session()
+
     def start_new_session(self):
         config = tf.ConfigProto()
         config.gpu_options.allow_growth = True
@@ -194,7 +196,6 @@ class SbbBinarizer:
             raise ValueError("Must pass either a opencv2 image or an image_path")
         if image_path is not None:
             image = cv2.imread(image_path)
-        self.start_new_session()
         list_of_model_files = glob('%s/*.h5' % self.model_dir)
         img_last = 0
         for n, model_in in enumerate(list_of_model_files):
