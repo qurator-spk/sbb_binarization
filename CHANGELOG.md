@@ -4,6 +4,12 @@ Versioned according to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [0.0.5] - 2020-11-02
+
+Fixed:
+
+  * Memory leak, start tf session only once, #17 ht @sulzbals
+
 ## [0.0.4] - 2020-10-27
 
 Changed:
