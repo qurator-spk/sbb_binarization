@@ -4,6 +4,13 @@ Versioned according to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [0.0.6] - 2020-11-23
+
+Fixed:
+
+  * Require h5py < 3, qurator-spk/sbb_textline_detection#50, #18
+  * Require `tensorflow-gpu` (CPU+GPU), not `tensorflow` (CPU only), #20
+
 ## [0.0.5] - 2020-11-02
 
 Fixed:
@@ -38,6 +45,8 @@ Fixed:
 Initial release
 
 <!-- link-labels -->
+[0.0.6]: ../../compare/v0.0.6...v0.0.5
+[0.0.5]: ../../compare/v0.0.6...v0.0.4
 [0.0.4]: ../../compare/v0.0.4...v0.0.3
 [0.0.3]: ../../compare/v0.0.3...v0.0.2
 [0.0.2]: ../../compare/v0.0.1...v0.0.2
