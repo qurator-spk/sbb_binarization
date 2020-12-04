@@ -8,7 +8,7 @@ help:
 	@echo "  Targets"
 	@echo ""
 	@echo "    install  Install with pip"
-	@echo "    model    Downloads the pre-trained models from qurator-data.de"
+	@echo "    models   Downloads the pre-trained models from qurator-data.de"
 	@echo "    test     Run tests"
 	@echo ""
 	@echo "  Variables"
@@ -22,7 +22,7 @@ install:
 	pip install .
 
 # Downloads the pre-trained models from qurator-data.de
-model: $(MODEL_DIR)/model1_bin.h5
+models: $(MODEL_DIR)/model1_bin.h5
 
 $(MODEL_DIR)/model1_bin.h5: models.tar.gz
 	tar xf models.tar.gz
