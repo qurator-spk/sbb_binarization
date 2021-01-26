@@ -36,3 +36,8 @@ sbb_binarize \
 ```
 
 **Note** In virtually all cases, the `--patches` flag will improve results.
+
+To use the OCR-D interface:
+```sh
+ocrd-sbb-binarize --overwrite -I INPUT_FILE_GRP -O OCR-D-IMG-BIN -P model "/var/lib/sbb_binarization"
+```
