@@ -25,5 +25,5 @@ model:
 
 # Run tests
 test: model
-	cd repo/assets/data/kant_aufklaerung_1784/data; ocrd-sbb-binarize -I OCR-D-IMG -O BIN -P model default
-	cd repo/assets/data/kant_aufklaerung_1784-page-region/data; ocrd-sbb-binarize -I OCR-D-IMG -O BIN -P model default -P operation_level region
+	ocrd-sbb-binarize -m repo/assets/data/kant_aufklaerung_1784/data/mets.xml -I OCR-D-IMG -O BIN -P model default
+	ocrd-sbb-binarize -m repo/assets/data/kant_aufklaerung_1784-page-region/data/mets.xml -I OCR-D-IMG -O BIN -P model default -P operation_level region
