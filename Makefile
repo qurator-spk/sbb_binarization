@@ -33,4 +33,4 @@ models.tar.gz:
 # Run tests
 test: model
 	cd repo/assets/data/kant_aufklaerung_1784/data; ocrd-sbb-binarize -I OCR-D-IMG -O BIN -P model $(MODEL_DIR)
-	cd repo/assets/data/kant_aufklaerung_1784-page-region/data; ocrd-sbb-binarize -I OCR-D-IMG -O BIN -P model $(MODEL_DIR) -P level-of-operation region
+	cd repo/assets/data/kant_aufklaerung_1784-page-region/data; ocrd-sbb-binarize -I OCR-D-IMG -O BIN -P model $(MODEL_DIR) -P operation_level region
