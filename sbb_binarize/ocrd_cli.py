@@ -40,15 +40,17 @@ class SbbBinarizeProcessor(Processor):
         kwargs['ocrd_tool'] = OCRD_TOOL['tools'][TOOL]
         kwargs['version'] = OCRD_TOOL['version']
         if not(kwargs.get('show_help', None) or kwargs.get('dump_json', None) or kwargs.get('show_version')):
+            LOG = getLogger('processor.SbbBinarize.__init__')
             if not 'model' in kwargs['parameter']:
                 raise ValueError("'model' parameter is required")
             model_path = Path(kwargs['parameter']['model'])
             if not model_path.is_absolute():
-                if 'SBB_BINARIZE_DATA' in environ:
+                if 'SBB_BINARIZE_DATA' in environ and environ['SBB_BINARIZE_DATA']:
+                    LOG.info("Environment variable SBB_BINARIZE_DATA is set to '%s' - prepending to model value '%s'. If you don't want this mechanism, unset the SBB_BINARIZE_DATA environment variable.", environ['SBB_BINARIZE_DATA'], model_path)
                     model_path = Path(environ['SBB_BINARIZE_DATA']).joinpath(model_path)
                 model_path = model_path.resolve()
-            if not model_path.is_dir():
-                raise FileNotFoundError("Does not exist or is not a directory: %s" % model_path)
+                if not model_path.is_dir():
+                    raise FileNotFoundError("Does not exist or is not a directory: %s" % model_path)
             kwargs['parameter']['model'] = str(model_path)
         super().__init__(*args, **kwargs)
 
@@ -61,7 +63,7 @@ class SbbBinarizeProcessor(Processor):
         assert_file_grp_cardinality(self.output_file_grp, 1)
 
         oplevel = self.parameter['operation_level']
-        model_path = self.parameter['model'] # pylint: disable=attribute-defined-outside-init
+        model_path = self.resolve_resource(self.parameter['model'])
         binarizer = SbbBinarizer(model_dir=model_path, logger=LOG)
 
         for n, input_file in enumerate(self.input_files):
