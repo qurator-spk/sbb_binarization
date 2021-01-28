@@ -9,14 +9,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - model-cache
+            - ocrd-resources-{{ checksum "requirements.txt" }}-{{ checksum "Makefile" }}
+      - run: make install
       - run: make model
       - save_cache:
-          key: model-cache
+          key: ocrd-resources-{{ checksum "requirements.txt" }}-{{ checksum "Makefile" }}
           paths:
-            models.tar.gz
-            models
-      - run: make install
+            ocrd-resources
       - run: git submodule update --init
       - run: make test
 
@@ -27,14 +26,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - model-cache
+            - ocrd-resources-{{ checksum "requirements.txt" }}-{{ checksum "Makefile" }}
+      - run: make install
       - run: make model
       - save_cache:
-          key: model-cache
+          key: ocrd-resources-{{ checksum "requirements.txt" }}-{{ checksum "Makefile" }}
           paths:
-            models.tar.gz
-            models
-      - run: make install
+            ocrd-resources
       - run: git submodule update --init
       - run: make test
 
