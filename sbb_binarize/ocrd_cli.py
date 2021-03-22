@@ -74,10 +74,10 @@ class SbbBinarizeProcessor(Processor):
             self.add_metadata(pcgts)
             pcgts.set_pcGtsId(file_id)
             page = pcgts.get_Page()
+            page_image, page_xywh, _ = self.workspace.image_from_page(page, page_id, feature_filter='binarized')
 
             if oplevel == 'page':
                 LOG.info("Binarizing on 'page' level in page '%s'", page_id)
-                page_image, page_xywh, _ = self.workspace.image_from_page(page, page_id, feature_filter='binarized')
                 bin_image = cv2pil(binarizer.run(image=pil2cv(page_image), use_patches=True))
                 # update METS (add the image file):
                 bin_image_path = self.workspace.save_image_file(bin_image,
