@@ -4,6 +4,13 @@ Versioned according to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [0.0.8] - 2021-02-02
+
+Fixed:
+
+  * handle image smaller than patch size
+  * fix unbound variable error, #27
+
 ## [0.0.7] - 2021-02-02
 
 Changed:
@@ -51,6 +58,7 @@ Fixed:
 Initial release
 
 <!-- link-labels -->
+[0.0.8]: ../../compare/v0.0.8...v0.0.7
 [0.0.7]: ../../compare/v0.0.7...v0.0.6
 [0.0.6]: ../../compare/v0.0.6...v0.0.5
 [0.0.5]: ../../compare/v0.0.6...v0.0.4
