@@ -39,10 +39,10 @@ class SbbBinarizer:
             self.models.append(self.load_model(model_file))
 
     def start_new_session(self):
-        config = tf.ConfigProto()
+        config = tf.compat.v1.ConfigProto()
         config.gpu_options.allow_growth = True
 
-        self.session = tf.Session(config=config)  # tf.InteractiveSession()
+        self.session = tf.compat.v1.Session(config=config)  # tf.InteractiveSession()
         tensorflow_backend.set_session(self.session)
 
     def end_session(self):
