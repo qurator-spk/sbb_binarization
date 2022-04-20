@@ -39,32 +39,60 @@ class SbbBinarizeProcessor(Processor):
     def __init__(self, *args, **kwargs):
         kwargs['ocrd_tool'] = OCRD_TOOL['tools'][TOOL]
         kwargs['version'] = OCRD_TOOL['version']
-        if not(kwargs.get('show_help', None) or kwargs.get('dump_json', None) or kwargs.get('show_version')):
-            LOG = getLogger('processor.SbbBinarize.__init__')
-            if not 'model' in kwargs['parameter']:
-                raise ValueError("'model' parameter is required")
-            model_path = Path(kwargs['parameter']['model'])
-            if not model_path.is_absolute():
-                if 'SBB_BINARIZE_DATA' in environ and environ['SBB_BINARIZE_DATA']:
-                    LOG.info("Environment variable SBB_BINARIZE_DATA is set to '%s' - prepending to model value '%s'. If you don't want this mechanism, unset the SBB_BINARIZE_DATA environment variable.", environ['SBB_BINARIZE_DATA'], model_path)
-                    model_path = Path(environ['SBB_BINARIZE_DATA']).joinpath(model_path)
-                    model_path = model_path.resolve()
-                    if not model_path.is_dir():
-                        raise FileNotFoundError("Does not exist or is not a directory: %s" % model_path)
-            kwargs['parameter']['model'] = str(model_path)
         super().__init__(*args, **kwargs)
+        if hasattr(self, 'output_file_grp'):
+            # processing context
+            self.setup()
+
+    def setup(self):
+        """
+        Set up the model prior to processing.
+        """
+        LOG = getLogger('processor.SbbBinarize.__init__')
+        if not 'model' in self.parameter:
+            raise ValueError("'model' parameter is required")
+        # resolve relative path via environment variable
+        model_path = Path(self.parameter['model'])
+        if not model_path.is_absolute():
+            if 'SBB_BINARIZE_DATA' in environ and environ['SBB_BINARIZE_DATA']:
+                LOG.info("Environment variable SBB_BINARIZE_DATA is set to '%s'" \
+                         " - prepending to model value '%s'. If you don't want this mechanism," \
+                         " unset the SBB_BINARIZE_DATA environment variable.",
+                         environ['SBB_BINARIZE_DATA'], model_path)
+                model_path = Path(environ['SBB_BINARIZE_DATA']).joinpath(model_path)
+                model_path = model_path.resolve()
+                if not model_path.is_dir():
+                    raise FileNotFoundError("Does not exist or is not a directory: %s" % model_path)
+        # resolve relative path via OCR-D ResourceManager
+        model_path = self.resolve_resource(str(model_path))
+        self.binarizer = SbbBinarizer(model_dir=model_path, logger=LOG)
 
     def process(self):
         """
-        Binarize with sbb_binarization
+        Binarize images with sbb_binarization (based on selectional auto-encoders).
+
+        For each page of the input file group, open and deserialize input PAGE-XML
+        and its respective images. Then iterate over the element hierarchy down to
+        the requested ``operation_level``.
+
+        For each segment element, retrieve a raw (non-binarized) segment image
+        according to the layout  annotation (from an existing ``AlternativeImage``,
+        or by cropping into the higher-level images, and deskewing when applicable).
+
+        Pass the image to the binarizer (which runs in fixed-size windows/patches
+        across the image and stitches the results together).
+
+        Serialize the resulting bilevel image as PNG file and add it to the output
+        file group (with file ID suffix ``.IMG-BIN``) along with the output PAGE-XML
+        (referencing it as new ``AlternativeImage`` for the segment element).
+
+        Produce a new PAGE output file by serialising the resulting hierarchy.
         """
         LOG = getLogger('processor.SbbBinarize')
         assert_file_grp_cardinality(self.input_file_grp, 1)
         assert_file_grp_cardinality(self.output_file_grp, 1)
 
         oplevel = self.parameter['operation_level']
-        model_path = self.resolve_resource(self.parameter['model'])
-        binarizer = SbbBinarizer(model_dir=model_path, logger=LOG)
 
         for n, input_file in enumerate(self.input_files):
             file_id = make_file_id(input_file, self.output_file_grp)
@@ -78,7 +106,7 @@ class SbbBinarizeProcessor(Processor):
 
             if oplevel == 'page':
                 LOG.info("Binarizing on 'page' level in page '%s'", page_id)
-                bin_image = cv2pil(binarizer.run(image=pil2cv(page_image), use_patches=True))
+                bin_image = cv2pil(self.binarizer.run(image=pil2cv(page_image), use_patches=True))
                 # update METS (add the image file):
                 bin_image_path = self.workspace.save_image_file(bin_image,
                         file_id + '.IMG-BIN',
