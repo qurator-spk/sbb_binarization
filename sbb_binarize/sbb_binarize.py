@@ -15,8 +15,8 @@ environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 stderr = sys.stderr
 sys.stderr = open(devnull, 'w')
 import tensorflow as tf
-from tensorflow.keras.models import load_model, Model
-from tensorflow.python.keras import backend as K
+from tensorflow.keras.models import load_model
+from tensorflow.python.keras import backend as tensorflow_backend
 sys.stderr = stderr
 
 
@@ -44,10 +44,10 @@ class SbbBinarizer:
         config.gpu_options.allow_growth = True
 
         self.session = tf.compat.v1.Session(config=config)  # tf.InteractiveSession()
-        K.set_session(self.session)
+        tensorflow_backend.set_session(self.session)
 
     def end_session(self):
-        K.clear_session()
+        tensorflow_backend.clear_session()
         self.session.close()
         del self.session
 
@@ -59,7 +59,7 @@ class SbbBinarizer:
         return model, model_height, model_width, n_classes
 
     def predict(self, model_in, img, use_patches):
-        K.set_session(self.session)
+        tensorflow_backend.set_session(self.session)
         model, model_height, model_width, n_classes = model_in
         
         img_org_h = img.shape[0]
