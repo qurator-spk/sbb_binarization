@@ -8,10 +8,7 @@
 
 ## Introduction
 
-This tool performs document image binarization (i.e. transform colour/grayscale
-to black-and-white pixels) for OCR using multiple trained models. 
-
-The method used is based on _Calvo-Zaragoza/Gallego, 2018. [A selectional auto-encoder approach for document image binarization](https://arxiv.org/abs/1706.10241)_.
+This tool performs document image binarization using trained models. The method is based on [Calvo-Zaragoza and Gallego, 2018](https://arxiv.org/abs/1706.10241).
 
 ## Installation
 
@@ -30,14 +27,20 @@ https://qurator-data.de/sbb_binarization/
 ```sh
 sbb_binarize \
   --patches \
-  -m <directory with models> \
+  -m <path to directory containing model files> \
   <input image> \
   <output image>
 ```
 
-**Note** In virtually all cases, the `--patches` flag will improve results.
+**Note** In virtually all cases, applying the `--patches` flag will improve the quality of results.
 
-To use the OCR-D interface:
+Example
+
+```sh
+sbb_binarize --patches -m /path/to/models/ myimage.tif myimage-bin.tif
+```
+
+To use the [OCR-D](https://ocr-d.de/) interface:
 ```sh
 ocrd-sbb-binarize --overwrite -I INPUT_FILE_GRP -O OCR-D-IMG-BIN -P model "/var/lib/sbb_binarization"
 ```
