@@ -14,10 +14,11 @@ import cv2
 environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 stderr = sys.stderr
 sys.stderr = open(devnull, 'w')
-from keras.models import load_model
-from keras.backend import tensorflow_backend
-sys.stderr = stderr
 import tensorflow as tf
+from tensorflow.keras.models import load_model
+from tensorflow.python.keras import backend as tensorflow_backend
+sys.stderr = stderr
+
 
 import logging
 
