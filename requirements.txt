@@ -2,5 +2,4 @@ numpy
 setuptools >= 41
 opencv-python-headless
 ocrd >= 2.22.3
-h5py < 3
-tensorflow-gpu >= 2.4.0
+tensorflow >= 2.4.0
