@@ -1,7 +1,7 @@
 """
 sbb_binarize CLI
 """
-
+import click
 from click import command, option, argument, version_option, types
 from .sbb_binarize import SbbBinarizer
 
