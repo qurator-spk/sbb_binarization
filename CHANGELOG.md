@@ -4,6 +4,10 @@ Versioned according to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+Fixed:
+
+  * Use correct import, `s/click/types`, #  40
+
 ## [0.0.9] - 2022-04-26
 
 Changed:
