@@ -4,9 +4,11 @@ Versioned according to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [0.0.10] - 2022-07-21
+
 Fixed:
 
-  * Use correct import, `s/click/types`, #  40
+  * Use correct import, `s/click/types`, #40
 
 ## [0.0.9] - 2022-04-26
 
@@ -69,6 +71,7 @@ Fixed:
 Initial release
 
 <!-- link-labels -->
+[0.0.10]: ../../compare/v0.0.10...v0.0.9
 [0.0.9]: ../../compare/v0.0.9...v0.0.8
 [0.0.8]: ../../compare/v0.0.8...v0.0.7
 [0.0.7]: ../../compare/v0.0.7...v0.0.6
