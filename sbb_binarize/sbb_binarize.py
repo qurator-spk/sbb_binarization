@@ -112,8 +112,10 @@ class SbbBinarizer:
     def load_model(self, model_name):
         try:
             model = load_model(join(self.model_dir, model_name), compile=False)
+            self.margin_percent = 0.1
         except:
             model = load_model(join(self.model_dir, model_name) , compile=False,custom_objects = {"PatchEncoder": PatchEncoder, "Patches": Patches})
+            self.margin_percent = 0.15
         model_height = model.layers[len(model.layers)-1].output_shape[1]
         model_width = model.layers[len(model.layers)-1].output_shape[2]
         n_classes = model.layers[len(model.layers)-1].output_shape[3]
@@ -156,14 +158,31 @@ class SbbBinarizer:
             index_start_w  = 0
             img_padded = np.copy(img)
             
+        img_org_h_pad = img_padded.shape[0]
+        img_org_w_pad = img_padded.shape[1]
             
-        img = np.copy(img_padded)
+        index_start_h_alw = 100
+        index_start_w_alw = 100
+        
+        img_padded_alw = np.zeros(( img_padded.shape[0]+2*index_start_h_alw, img.shape[1]+2*index_start_w_alw, img.shape[2] ))
+        
+        
+        img_padded_alw [ 0: index_start_h_alw, index_start_w_alw: index_start_w_alw+img_padded.shape[1], : ] = img_padded[:index_start_h_alw,:,:]
+        img_padded_alw [ index_start_h_alw: index_start_h_alw+img_padded.shape[0], 0:index_start_w_alw, : ] = img_padded[:,0:index_start_w_alw,:]
+        
+        img_padded_alw [ img_padded_alw.shape[0]-index_start_h_alw: img_padded_alw.shape[0], index_start_w_alw: index_start_w_alw+img_padded.shape[1], : ] = img_padded[img_padded.shape[0]-index_start_h_alw:img_padded.shape[0],:,:]
+        img_padded_alw [ index_start_h_alw: index_start_h_alw+img_padded.shape[0],img_padded_alw.shape[1]-index_start_w_alw: img_padded_alw.shape[1], : ] = img_padded[:,img_padded.shape[1]-index_start_w_alw:img_padded.shape[1],:]
+            
+        img_padded_alw [ index_start_h_alw: index_start_h_alw+img_padded.shape[0], index_start_w_alw: index_start_w_alw+img_padded.shape[1], : ] = img_padded[:,:,:]
+        
+        img = np.copy(img_padded_alw)
+
         
             
 
         if use_patches:
 
-            margin = int(0.1 * model_width)
+            margin = int(self.margin_percent * model_width)
 
             width_mid = model_width - 2 * margin
             height_mid = model_height - 2 * margin
@@ -215,20 +234,20 @@ class SbbBinarizer:
 
                     img_patch = img[index_y_d:index_y_u, index_x_d:index_x_u, :]
                     
-                    h_res = int( img_patch.shape[0]/1.05)
-                    w_res = int( img_patch.shape[1]/1.05)
+                    #h_res = int( img_patch.shape[0]/1.05)
+                    #w_res = int( img_patch.shape[1]/1.05)
                     
-                    img_patch_resize = resize_image(img_patch, h_res, w_res)
+                    #img_patch_resize = resize_image(img_patch, h_res, w_res)
                     
-                    img_patch_resized_padded =np.ones((img_patch.shape[0],img_patch.shape[1],img_patch.shape[2])).astype(float)#self.do_padding()
+                    #img_patch_resized_padded =np.ones((img_patch.shape[0],img_patch.shape[1],img_patch.shape[2])).astype(float)#self.do_padding()
                     
-                    h_start=int( abs(img_patch.shape[0]-img_patch_resize.shape[0])/2. )
+                    #h_start=int( abs(img_patch.shape[0]-img_patch_resize.shape[0])/2. )
                     
-                    w_start=int( abs(img_patch.shape[1]-img_patch_resize.shape[1])/2. )
+                    #w_start=int( abs(img_patch.shape[1]-img_patch_resize.shape[1])/2. )
                     
-                    img_patch_resized_padded[h_start:h_start+img_patch_resize.shape[0],w_start:w_start+img_patch_resize.shape[1],:]=np.copy(img_patch_resize[:,:,:])
+                    #img_patch_resized_padded[h_start:h_start+img_patch_resize.shape[0],w_start:w_start+img_patch_resize.shape[1],:]=np.copy(img_patch_resize[:,:,:])
                     
-                    label_p_pred_padded = model.predict(img_patch_resized_padded.reshape(1, img_patch.shape[0], img_patch.shape[1], img_patch.shape[2]))
+                    #label_p_pred_padded = model.predict(img_patch_resized_padded.reshape(1, img_patch.shape[0], img_patch.shape[1], img_patch.shape[2]))
 
                     label_p_pred = model.predict(img_patch.reshape(1, img_patch.shape[0], img_patch.shape[1], img_patch.shape[2]))
 
@@ -237,22 +256,8 @@ class SbbBinarizer:
                     #label_p_pred = model.predict(img_patch.reshape(1, img_patch.shape[0], img_patch.shape[1], img_patch.shape[2]))
 
                     seg = np.argmax(label_p_pred, axis=3)[0]
-                    
-                    
-                    seg_padded = np.argmax(label_p_pred_padded, axis=3)[0]
-                    
-                    seg_padded_take_core = seg_padded[h_start:h_start+img_patch_resize.shape[0],w_start:w_start+img_patch_resize.shape[1]]
-                    
-                    seg_padded_take_core_org_size= resize_image(seg_padded_take_core, img_patch.shape[0], img_patch.shape[1])
-                    
-                    #print(seg_padded_take_core_org_size,'sag padded')
-                    #print(seg,'sag')
-                    
-                    seg_tot  = seg_padded_take_core_org_size+0#seg
-                    
-                    seg_tot[seg_tot>1]=1
 
-                    seg_color = np.repeat(seg_tot[:, :, np.newaxis], 3, axis=2)
+                    seg_color = np.repeat(seg[:, :, np.newaxis], 3, axis=2)
 
                     #seg_color = np.repeat(seg[:, :, np.newaxis], 3, axis=2)
 
@@ -320,7 +325,7 @@ class SbbBinarizer:
                         prediction_true[index_y_d + margin:index_y_u - margin, index_x_d + margin:index_x_u - margin, :] = seg_color
             
             
-            
+            prediction_true = prediction_true[index_start_h_alw: index_start_h_alw+img_org_h_pad, index_start_w_alw: index_start_w_alw+img_org_w_pad,:]
             prediction_true = prediction_true[index_start_h: index_start_h+img_org_h, index_start_w: index_start_w+img_org_w,:]
             prediction_true = prediction_true.astype(np.uint8)
 
