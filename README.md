@@ -16,6 +16,10 @@ Clone the repository, enter it and run
 
 `pip install .`
 
+### Requirements
+
+This project has been tested with Python 3.6 and the library versions specified in the requirements.txt, but might also work with later versions of Tensorflow.
+
 ### Models
 
 Pre-trained models in  `HDF5` format can be downloaded from here:   

@@ -1,5 +1,5 @@
 numpy
-setuptools >= 41
-opencv-python-headless
-ocrd >= 2.38.0
+setuptools>=41
+ocrd==2.38.0
+opencv-python-headless==4.6.0.66
 tensorflow >= 2.4.0
