@@ -34,7 +34,9 @@ class SbbBinarizer:
         self.start_new_session()
 
         self.model_files = glob('%s/*.h5' % self.model_dir)
-
+        if not self.model_files:
+            raise ValueError(f"No models found in {self.model_dir}")
+        
         self.models = []
         for model_file in self.model_files:
             self.models.append(self.load_model(model_file))
