@@ -161,21 +161,21 @@ class SbbBinarizer:
         img_org_h_pad = img_padded.shape[0]
         img_org_w_pad = img_padded.shape[1]
             
-        index_start_h_alw = 100
-        index_start_w_alw = 100
+        index_start_h_alw = 0#100
+        index_start_w_alw = 0#100
         
-        img_padded_alw = np.zeros(( img_padded.shape[0]+2*index_start_h_alw, img.shape[1]+2*index_start_w_alw, img.shape[2] ))
+        #img_padded_alw = np.zeros(( img_padded.shape[0]+2*index_start_h_alw, img.shape[1]+2*index_start_w_alw, img.shape[2] ))
         
         
-        img_padded_alw [ 0: index_start_h_alw, index_start_w_alw: index_start_w_alw+img_padded.shape[1], : ] = img_padded[:index_start_h_alw,:,:]
-        img_padded_alw [ index_start_h_alw: index_start_h_alw+img_padded.shape[0], 0:index_start_w_alw, : ] = img_padded[:,0:index_start_w_alw,:]
+        #img_padded_alw [ 0: index_start_h_alw, index_start_w_alw: index_start_w_alw+img_padded.shape[1], : ] = img_padded[:index_start_h_alw,:,:]
+        #img_padded_alw [ index_start_h_alw: index_start_h_alw+img_padded.shape[0], 0:index_start_w_alw, : ] = img_padded[:,0:index_start_w_alw,:]
         
-        img_padded_alw [ img_padded_alw.shape[0]-index_start_h_alw: img_padded_alw.shape[0], index_start_w_alw: index_start_w_alw+img_padded.shape[1], : ] = img_padded[img_padded.shape[0]-index_start_h_alw:img_padded.shape[0],:,:]
-        img_padded_alw [ index_start_h_alw: index_start_h_alw+img_padded.shape[0],img_padded_alw.shape[1]-index_start_w_alw: img_padded_alw.shape[1], : ] = img_padded[:,img_padded.shape[1]-index_start_w_alw:img_padded.shape[1],:]
+        #img_padded_alw [ img_padded_alw.shape[0]-index_start_h_alw: img_padded_alw.shape[0], index_start_w_alw: index_start_w_alw+img_padded.shape[1], : ] = img_padded[img_padded.shape[0]-index_start_h_alw:img_padded.shape[0],:,:]
+        #img_padded_alw [ index_start_h_alw: index_start_h_alw+img_padded.shape[0],img_padded_alw.shape[1]-index_start_w_alw: img_padded_alw.shape[1], : ] = img_padded[:,img_padded.shape[1]-index_start_w_alw:img_padded.shape[1],:]
             
-        img_padded_alw [ index_start_h_alw: index_start_h_alw+img_padded.shape[0], index_start_w_alw: index_start_w_alw+img_padded.shape[1], : ] = img_padded[:,:,:]
+        #img_padded_alw [ index_start_h_alw: index_start_h_alw+img_padded.shape[0], index_start_w_alw: index_start_w_alw+img_padded.shape[1], : ] = img_padded[:,:,:]
         
-        img = np.copy(img_padded_alw)
+        img = np.copy(img_padded)
 
         
             
@@ -325,7 +325,7 @@ class SbbBinarizer:
                         prediction_true[index_y_d + margin:index_y_u - margin, index_x_d + margin:index_x_u - margin, :] = seg_color
             
             
-            prediction_true = prediction_true[index_start_h_alw: index_start_h_alw+img_org_h_pad, index_start_w_alw: index_start_w_alw+img_org_w_pad,:]
+            #prediction_true = prediction_true[index_start_h_alw: index_start_h_alw+img_org_h_pad, index_start_w_alw: index_start_w_alw+img_org_w_pad,:]
             prediction_true = prediction_true[index_start_h: index_start_h+img_org_h, index_start_w: index_start_w+img_org_w,:]
             prediction_true = prediction_true.astype(np.uint8)
 
