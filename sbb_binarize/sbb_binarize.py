@@ -54,7 +54,7 @@ class SbbBinarizer:
         del self.session
 
     def load_model(self, model_name):
-        model = load_model(join(self.model_dir, model_name), compile=False)
+        model = load_model(model_name, compile=False)
         model_height = model.layers[len(model.layers)-1].output_shape[1]
         model_width = model.layers[len(model.layers)-1].output_shape[2]
         n_classes = model.layers[len(model.layers)-1].output_shape[3]
