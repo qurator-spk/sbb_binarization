@@ -33,7 +33,6 @@ class SbbBinarizer:
         if not image_path.exists():
             raise ValueError(f"Image not found: {str(image_path)}")
 
-        # Most operations are expecting BGR as this is the standard way how CV2 reads images
         # noinspection PyUnresolvedReferences
         img = cv2.imread(str(image_path))
         original_image_height, original_image_width, image_channels = img.shape
