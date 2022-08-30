@@ -81,14 +81,7 @@ class SbbBinarizer:
         # noinspection PyUnresolvedReferences
         cv2.imwrite(str(save_path), full_image)
 
-    def _patches_to_image(
-        self,
-        patches: np.ndarray,
-        image_height: int,
-        image_width: int,
-        patch_height: int,
-        patch_width: int
-    ):
+    def _patches_to_image(self, patches: np.ndarray, image_height: int, image_width: int, patch_height: int, patch_width: int):
         height = math.ceil(image_height / patch_height) * patch_height
         width = math.ceil(image_width / patch_width) * patch_width
 
