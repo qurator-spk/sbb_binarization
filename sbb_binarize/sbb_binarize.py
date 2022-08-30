@@ -67,9 +67,13 @@ class SbbBinarizer:
         gc.collect()
         tf.keras.backend.clear_session()
 
-        binary_patches = np.invert(np.argmax(predicted_patches, axis=3).astype(bool)).astype(np.uint8) * 255
+        # The result is a white-on-black image that needs to be inverted to be displayed as black-on-white image
+        # We do this by converting the binary values to a boolean numpy-array and then inverting the values
+        black_on_white_patches = np.invert(np.argmax(predicted_patches, axis=3).astype(bool))
+        # cv2 can't export a boolean numpy array into a black-and-white PNG image, so we have to convert it to uint8 (grayscale) values
+        grayscale_patches = black_on_white_patches.astype(np.uint8) * 255
         full_image_with_padding = self._patches_to_image(
-            binary_patches,
+            grayscale_patches,
             padded_image_height,
             padded_image_width,
             self.model_height,
