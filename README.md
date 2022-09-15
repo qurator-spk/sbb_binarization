@@ -26,18 +26,15 @@ https://qurator-data.de/sbb_binarization/
 
 ```sh
 sbb_binarize \
-  --patches \
   -m <path to directory containing model files> \
   <input image> \
   <output image>
 ```
 
-**Note** In virtually all cases, applying the `--patches` flag will improve the quality of results.
-
 Example
 
 ```sh
-sbb_binarize --patches -m /path/to/models/ myimage.tif myimage-bin.tif
+sbb_binarize -m /path/to/models/ myimage.tif myimage-bin.tif
 ```
 
 To use the [OCR-D](https://ocr-d.de/) interface:
