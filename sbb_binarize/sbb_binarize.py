@@ -35,6 +35,8 @@ class SbbBinarizer:
 
         self.model_files = glob('%s/*.h5' % self.model_dir)
         if not self.model_files:
+            self.model_files = glob('%s/*/' % self.model_dir)
+        if not self.model_files:
             raise ValueError(f"No models found in {self.model_dir}")
         
         self.models = []
