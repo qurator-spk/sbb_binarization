@@ -30,6 +30,10 @@ def cv2pil(img):
 
 def pil2cv(img):
     # from ocrd/workspace.py
+    if img.mode in ('LA', 'RGBA'):
+        newimg = Image.new(img.mode[:-1], img.size, 'white')
+        newimg.paste(img, mask=img.getchannel('A'))
+        img = newimg
     color_conversion = cv2.COLOR_GRAY2BGR if img.mode in ('1', 'L') else  cv2.COLOR_RGB2BGR
     pil_as_np_array = np.array(img).astype('uint8') if img.mode == '1' else np.array(img)
     return cv2.cvtColor(pil_as_np_array, color_conversion)
