@@ -1,5 +1,5 @@
 numpy
 setuptools >= 41
 opencv-python-headless
-ocrd >= 2.22.3
+ocrd >= 2.38.0
 tensorflow >= 2.4.0
