@@ -18,7 +18,7 @@ Clone the repository, enter it and run
 
 ### Models
 
-Pre-trained models in  `h5` format can be downloaded from here:   
+Pre-trained models in  `HDF5` format can be downloaded from here:   
 
 https://qurator-data.de/sbb_binarization/
 
@@ -30,20 +30,17 @@ https://huggingface.co/SBB/sbb_binarization
 
 ```sh
 sbb_binarize \
-  --patches \
-  -m <path to directory containing model files> \
+  -m <path to directory containing model files \
   <input image> \
   <output image>
 ```
-
-In virtually all cases, applying the `--patches` flag will improve the quality of results.
 
 Images containing a lot of border noise (black pixels) should be cropped beforehand to improve the quality of results.
 
 ### Example
 
 ```sh
-sbb_binarize --patches -m /path/to/models/ myimage.tif myimage-bin.tif
+sbb_binarize -m /path/to/model/ myimage.tif myimage-bin.tif
 ```
 
 To use the [OCR-D](https://ocr-d.de/) interface:
