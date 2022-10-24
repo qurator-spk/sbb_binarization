@@ -4,6 +4,10 @@ Versioned according to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+Added:
+
+  * Trained models listed in ocrd-tool.json for download with OCR-D resource manager, #53
+
 ## [0.0.10] - 2022-07-21
 
 Fixed:
