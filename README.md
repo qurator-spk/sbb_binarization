@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This tool performs document image binarization using trained models. The method is based on [Calvo-Zaragoza and Gallego, 2018](https://arxiv.org/abs/1706.10241).
+This tool performs document image binarization using a trained ResNet50-UNet model. 
 
 ## Installation
 
@@ -18,9 +18,13 @@ Clone the repository, enter it and run
 
 ### Models
 
-Pre-trained models can be downloaded from here:   
+Pre-trained models in  `HDF5` format can be downloaded from here:   
 
 https://qurator-data.de/sbb_binarization/
+
+We also provide a Tensorflow `saved_model` via Huggingface:
+
+https://huggingface.co/SBB/sbb_binarization
 
 ## Usage
 
@@ -31,7 +35,9 @@ sbb_binarize \
   <output image>
 ```
 
-Example
+Images containing a lot of border noise (black pixels) should be cropped beforehand to improve the quality of results.
+
+### Example
 
 ```sh
 sbb_binarize -m /path/to/models/ myimage.tif myimage-bin.tif

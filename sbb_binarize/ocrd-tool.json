@@ -1,5 +1,5 @@
 {
-  "version": "0.0.10",
+  "version": "0.0.11",
   "git_url": "https://github.com/qurator-spk/sbb_binarization",
   "tools": {
     "ocrd-sbb-binarize": {
@@ -17,13 +17,31 @@
           "description": "PAGE XML hierarchy level to operate on"
         },
         "model": {
-          "description": "Directory containing HDF5 models. Can be an absolute path or a path relative to the current working directory or $SBB_BINARIZE_DATA environment variable (if set)",
+          "description": "Directory containing HDF5 or SavedModel/ProtoBuf models. Can be an absolute path or a path relative to the OCR-D resource location, the current working directory or the $SBB_BINARIZE_DATA environment variable (if set)",
           "type": "string",
           "format": "uri",
           "content-type": "text/directory",
           "required": true
         }
-      }
+      },
+      "resources": [
+        {
+          "url": "https://github.com/apacha/sbb_binarization/releases/download/pre-trained-models/model_2020_01_16.zip",
+          "name": "default",
+          "type": "archive",
+          "path_in_archive": "model_2020_01_16",
+          "size": 562917559,
+          "description": "default models provided by github.com/qurator-spk"
+        },
+        {
+          "url": "https://github.com/apacha/sbb_binarization/releases/download/pre-trained-models/model_2021_03_09.zip",
+          "name": "default-2021-03-09",
+          "type": "archive",
+          "path_in_archive": ".",
+          "size": 133693693,
+          "description": "updated default models provided by github.com/qurator-spk"
+        }
+      ]
     }
   }
 }
