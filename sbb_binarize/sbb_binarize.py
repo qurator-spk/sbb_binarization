@@ -3,15 +3,22 @@ import gc
 import itertools
 import math
 import os
+import sys
 from pathlib import Path
 from typing import Union, List, Any
 
 import cv2
 import numpy as np
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+stderr = sys.stderr
+sys.stderr = open(os.devnull, 'w')
 import tensorflow as tf
+from tensorflow.python.keras.saving.save import load_model
+sys.stderr = stderr
+
 from mpire import WorkerPool
 from mpire.utils import make_single_arguments
-from tensorflow.python.keras.saving.save import load_model
 
 
 class SbbBinarizer:
