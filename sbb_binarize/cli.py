@@ -15,4 +15,4 @@ from .sbb_binarize import SbbBinarizer
 def main(model_dir, input_image, output_image):
     binarizer = SbbBinarizer()
     binarizer.load_model(model_dir)
-    binarizer.binarize_image(image_path=input_image, save_path=output_image)
+    binarizer.binarize_image_file(image_path=input_image, save_path=output_image)
