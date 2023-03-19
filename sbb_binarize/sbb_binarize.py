@@ -87,8 +87,8 @@ class SbbBinarizer:
         predicted_patches = model.predict(image_patches, verbose=0)
         # We have to manually call garbage collection and clear_session here to avoid memory leaks.
         # Taken from https://medium.com/dive-into-ml-ai/dealing-with-memory-leak-issue-in-keras-model-training-e703907a6501
-        #gc.collect()
-        #tf.keras.backend.clear_session()
+        gc.collect()
+        tf.keras.backend.clear_session()
 
         # The result is a white-on-black image that needs to be inverted to be displayed as black-on-white image
         # We do this by converting the binary values to a boolean numpy-array and then inverting the values
