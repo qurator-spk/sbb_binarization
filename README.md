@@ -30,7 +30,7 @@ https://huggingface.co/SBB/sbb_binarization
 
 ```sh
 sbb_binarize \
-  -m <path to directory containing model files \
+  -m <path to directory containing model files> \
   <input image> \
   <output image>
 ```
@@ -40,7 +40,7 @@ Images containing a lot of border noise (black pixels) should be cropped beforeh
 ### Example
 
 ```sh
-sbb_binarize -m /path/to/model/ myimage.tif myimage-bin.tif
+sbb_binarize -m /path/to/models/ myimage.tif myimage-bin.tif
 ```
 
 To use the [OCR-D](https://ocr-d.de/) interface:

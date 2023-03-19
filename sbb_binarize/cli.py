@@ -3,7 +3,9 @@ sbb_binarize CLI
 """
 
 from click import command, option, argument, version_option, types
+
 from .sbb_binarize import SbbBinarizer
+
 
 @command()
 @version_option()
@@ -11,4 +13,6 @@ from .sbb_binarize import SbbBinarizer
 @argument('input_image')
 @argument('output_image')
 def main(model_dir, input_image, output_image):
-    SbbBinarizer(model_dir).run(image_path=input_image, save=output_image)
+    binarizer = SbbBinarizer()
+    binarizer.load_model(model_dir)
+    binarizer.binarize_image_file(image_path=input_image, save_path=output_image)
