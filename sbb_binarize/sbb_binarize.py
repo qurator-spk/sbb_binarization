@@ -154,7 +154,8 @@ class SbbBinarizer:
 
                 img_patch = img[index_y_d:index_y_u, index_x_d:index_x_u, :]
 
-                label_p_pred = model.predict(img_patch.reshape(1, img_patch.shape[0], img_patch.shape[1], img_patch.shape[2]))
+                label_p_pred = model.predict(img_patch.reshape(1, img_patch.shape[0], img_patch.shape[1], img_patch.shape[2]),
+                                             verbose=0)
 
                 seg = np.argmax(label_p_pred, axis=3)[0]
 
