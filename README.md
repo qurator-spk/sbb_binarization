@@ -18,13 +18,18 @@ Clone the repository, enter it and run
 
 ### Models
 
-Pre-trained models in  `HDF5` format can be downloaded from here:   
+Pre-trained models in HDF5 format can be downloaded from here:
 
 https://qurator-data.de/sbb_binarization/
 
 We also provide a Tensorflow `saved_model` via Huggingface:
 
 https://huggingface.co/SBB/sbb_binarization
+
+With [OCR-D](https://ocr-d.de/), you can use the [Resource Manager](Tensorflow SavedModel) to deploy models, e.g.
+
+    ocrd resmgr download ocrd-sbb-binarize "*"
+
 
 ## Usage
 
@@ -39,11 +44,22 @@ Images containing a lot of border noise (black pixels) should be cropped beforeh
 
 ### Example
 
-```sh
-sbb_binarize -m /path/to/model/ myimage.tif myimage-bin.tif
-```
 
-To use the [OCR-D](https://ocr-d.de/) interface:
-```sh
-ocrd-sbb-binarize --overwrite -I INPUT_FILE_GRP -O OCR-D-IMG-BIN -P model "/var/lib/sbb_binarization"
-```
+    sbb_binarize -m /path/to/model/ myimage.tif myimage-bin.tif
+
+
+To use the [OCR-D](https://ocr-d.de/en/spec/cli) interface:
+
+    ocrd-sbb-binarize -I INPUT_FILE_GRP -O OCR-D-IMG-BIN -P model default
+
+
+## Testing
+
+For simple smoke tests, the following will
+- download models
+- download test data
+- run the OCR-D wrapper (on page and region level):
+
+
+    make model
+    make test
