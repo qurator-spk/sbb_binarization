@@ -6,7 +6,7 @@ jobs:
     parameters:
       python-version:
         type: string
-     docker:
+    docker:
       - image: cimg/python:<< parameters.python-version >>
     steps:
       - checkout
@@ -27,7 +27,7 @@ workflows:
   version: 2
   build:
     jobs:
-      - build-python
+      - build-python:
           matrix:
             parameters:
               python-version: ['3.7', '3.8', '3.9', '3.10']
