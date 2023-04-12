@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9']
-
+        python-version: ['3.7', '3.8', '3.9', '3.10']
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
@@ -31,11 +30,14 @@ jobs:
     - name: Cache models
       uses: actions/cache@v3
       with:
-        key: detectron-models
+        key: models
         path: /home/runner/.local/share/ocrd-resources/ocrd-sbb-binarize/*
     - name: Install dependencies for test
       # also downloads models, if not already present
       run: make models test/assets
     - name: Run tests
       run: make test
+    - name: Setup upterm session when failure
+      if: failure()
+      uses: lhotari/action-upterm@v1  
 
