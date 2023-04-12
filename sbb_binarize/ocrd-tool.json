@@ -31,15 +31,15 @@
           "type": "archive",
           "path_in_archive": "model_2020_01_16",
           "size": 562917559,
-          "description": "default models provided by github.com/qurator-spk"
+          "description": "default models provided by github.com/qurator-spk (SavedModel format)"
         },
         {
-          "url": "https://github.com/apacha/sbb_binarization/releases/download/pre-trained-models/model_2021_03_09.zip",
+          "url": "https://github.com/qurator-spk/sbb_binarization/releases/download/v0.0.11/saved_model_2021_03_09.zip",
           "name": "default-2021-03-09",
           "type": "archive",
           "path_in_archive": ".",
-          "size": 133693693,
-          "description": "updated default models provided by github.com/qurator-spk"
+          "size": 133230419,
+          "description": "updated default models provided by github.com/qurator-spk (SavedModel format)"
         }
       ]
     }
