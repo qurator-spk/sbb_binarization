@@ -25,7 +25,7 @@ models:
 	ocrd resmgr download ocrd-sbb-binarize "*"
 
 repo/assets:
-	git submodule update --init repo/assets
+	git submodule update --init
 
 # Setup test data
 test/assets: repo/assets
