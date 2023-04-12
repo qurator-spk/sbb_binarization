@@ -32,6 +32,8 @@ jobs:
       with:
         key: models
         path: /home/runner/.local/share/ocrd-resources/ocrd-sbb-binarize/*
+    - name: Clone submodules
+      run: git submodule update --init
     - name: Install dependencies for test
       # also downloads models, if not already present
       run: make models test/assets
