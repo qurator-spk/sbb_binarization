@@ -26,11 +26,11 @@
       },
       "resources": [
         {
-          "url": "https://github.com/apacha/sbb_binarization/releases/download/pre-trained-models/model_2020_01_16.zip",
+          "url": "https://github.com/qurator-spk/sbb_binarization/releases/download/v0.0.11/saved_model_2020_01_16.zip",
           "name": "default",
           "type": "archive",
-          "path_in_archive": "model_2020_01_16",
-          "size": 562917559,
+          "path_in_archive": "saved_model_2020_01_16",
+          "size": 563147331,
           "description": "default models provided by github.com/qurator-spk (SavedModel format)"
         },
         {
