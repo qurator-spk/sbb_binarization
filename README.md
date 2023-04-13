@@ -3,8 +3,8 @@
 > Binarization for document images
 
 [![pip release](https://img.shields.io/pypi/v/sbb-binarization.svg)](https://pypi.org/project/sbb-binarization/)
-[![CircleCI test](https://circleci.com/gh/qurator-spk/sbb_binarization.svg?style=svg)](https://circleci.com/gh/qurator-spk/sbb_binarization)
-[![GHAction test](https://github.com/qurator-spk/sbb_binarization/actions/workflows/test.yml/badge.svg)](https://github.com/qurator-spk/sbb_binarization/actions/workflows/test.yml)
+[![CircleCI test](https://circleci.com/gh/qurator-spk/sbb_binarization.svg?style=shield)](https://circleci.com/gh/qurator-spk/sbb_binarization)
+[![GHActions Tests](https://github.com/qurator-spk/sbb_binarization/actions/workflows/test.yml/badge.svg)](https://github.com/qurator-spk/sbb_binarization/actions/workflows/test.yml)
 
 ## Examples
 
