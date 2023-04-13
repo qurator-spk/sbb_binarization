@@ -24,13 +24,13 @@ install:
 models:
 	ocrd resmgr download ocrd-sbb-binarize "*"
 
-repo/assets:
+repo/assets/data:
 	git submodule update --init
 
 # Setup test data
-test/assets: repo/assets
+test/assets: repo/assets/data
 	@mkdir -p $@
-	cp -r -t $@ repo/assets/data/*
+	cp -r -t $@ $</*
 
 # Run tests
 .PHONY: test

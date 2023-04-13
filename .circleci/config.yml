@@ -18,7 +18,6 @@ jobs:
           key: ocrd-resources-{{ checksum "requirements.txt" }}-{{ checksum "Makefile" }}
           paths:
             ocrd-resources
-      - run: git submodule update --init
       - run: make test
 
 
