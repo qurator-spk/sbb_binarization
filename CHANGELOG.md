@@ -7,6 +7,8 @@ Versioned according to [Semantic Versioning](http://semver.org/).
 Fixed:
 
   * repaired `operation_level=region` (typo)
+  * repaired standalone CLI `--version` (pkg name)
+  * repaired standalone CLI channel format (uint8)
 
 Changed:
 
