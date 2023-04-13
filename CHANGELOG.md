@@ -4,7 +4,19 @@ Versioned according to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
-## [0.0.10] - 2022-10-24
+Fixed:
+
+  * repaired `operation_level=region` (typo)
+  * repaired standalone CLI `--version` (pkg name)
+  * repaired standalone CLI channel format (uint8)
+
+Changed:
+
+  * Trained models loadable and registered in SavedModel format
+  * Test both models, deployed normally (not in CWD)
+  * Test input with actual regions in `operation_level=region`
+
+## [0.0.11] - 2022-10-24
 
 Added:
 

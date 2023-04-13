@@ -17,7 +17,7 @@ setup(
     author='Vahid Rezanezhad',
     url='https://github.com/qurator-spk/sbb_binarization',
     license='Apache License 2.0',
-    packages=find_packages(exclude=('tests', 'docs')),
+    packages=find_packages(exclude=('test', 'repo')),
     include_package_data=True,
     package_data={'': ['*.json', '*.yml', '*.yaml']},
     install_requires=install_requires,

@@ -6,7 +6,7 @@ from click import command, option, argument, version_option, types
 from .sbb_binarize import SbbBinarizer
 
 @command()
-@version_option()
+@version_option(package_name="sbb-binarization")
 @option('--model-dir', '-m', type=types.Path(exists=True, file_okay=False), required=True, help='directory containing models for prediction')
 @argument('input_image')
 @argument('output_image')

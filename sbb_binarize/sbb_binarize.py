@@ -255,9 +255,11 @@ class SbbBinarizer:
             img_fin = (res[:, :] == 0) * 255
             img_last = img_last + img_fin
 
-        kernel = np.ones((5, 5), np.uint8)
         img_last[:, :][img_last[:, :] > 0] = 255
         img_last = (img_last[:, :] == 0) * 255
         if save:
-            cv2.imwrite(save, img_last)
+            cv2.imwrite(save, img_last.astype(np.uint8), [
+                cv2.IMWRITE_PNG_BILEVEL, 1,
+                cv2.IMWRITE_JPEG_QUALITY, 100
+            ])
         return img_last

@@ -1,16 +1,17 @@
 # BEGIN-EVAL makefile-parser --make-help Makefile
 
+.PHONY: help install
 help:
 	@echo ""
 	@echo "  Targets"
 	@echo ""
 	@echo "    install  Install with pip"
-	@echo "    model    Downloads the pre-trained models from qurator-data.de"
+	@echo "    models   Downloads the pre-trained models from qurator-data.de"
 	@echo "    test     Run tests"
+	@echo "    clean    Remove copies/results in test/assets"
 	@echo ""
 	@echo "  Variables"
 	@echo ""
-	@echo "    MODEL_DIR  Directory to store models"
 
 # END-EVAL
 
@@ -19,11 +20,26 @@ install:
 	pip install .
 
 # Downloads the pre-trained models from qurator-data.de
-.PHONY: model
-model:
-	ocrd resmgr download --allow-uninstalled --location cwd ocrd-sbb-binarize default
+.PHONY: models
+models:
+	ocrd resmgr download ocrd-sbb-binarize "*"
+
+repo/assets/data:
+	git submodule update --init
+
+# Setup test data
+test/assets: repo/assets/data
+	@mkdir -p $@
+	cp -r -t $@ $</*
 
 # Run tests
-test: model
-	ocrd-sbb-binarize -m repo/assets/data/kant_aufklaerung_1784/data/mets.xml -I OCR-D-IMG -O BIN -P model default
-	ocrd-sbb-binarize -m repo/assets/data/kant_aufklaerung_1784-page-region/data/mets.xml -I OCR-D-IMG -O BIN -P model default -P operation_level region
+.PHONY: test
+test: test/assets models
+	ocrd-sbb-binarize -m test/assets/kant_aufklaerung_1784/data/mets.xml -I OCR-D-IMG -O BIN -P model default
+	ocrd-sbb-binarize -m test/assets/kant_aufklaerung_1784/data/mets.xml -I OCR-D-IMG -O BIN2 -P model default-2021-03-09
+	ocrd-sbb-binarize -m test/assets/kant_aufklaerung_1784-page-region/data/mets.xml -g phys_0001 -I OCR-D-GT-SEG-REGION -O BIN -P model default -P operation_level region
+	ocrd-sbb-binarize -m test/assets/kant_aufklaerung_1784-page-region/data/mets.xml -g phys_0001 -I OCR-D-GT-SEG-REGION -O BIN2 -P model default-2021-03-09 -P operation_level region
+
+.PHONY: clean
+clean:
+	-$(RM) -fr test/assets
