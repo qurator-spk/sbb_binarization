@@ -1,5 +1,5 @@
 {
-  "version": "0.0.11",
+  "version": "0.1.0",
   "git_url": "https://github.com/qurator-spk/sbb_binarization",
   "tools": {
     "ocrd-sbb-binarize": {
