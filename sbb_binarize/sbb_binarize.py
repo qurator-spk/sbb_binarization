@@ -91,7 +91,8 @@ class SbbBinarizer:
 
         self.start_new_session()
 
-        self.model_files = glob('%s/*.h5' % self.model_dir)
+        #self.model_files = glob('%s/*.h5' % self.model_dir)
+        self.model_files = glob(self.model_dir+"/*/", recursive = True)
 
         self.models = []
         for model_file in self.model_files:
