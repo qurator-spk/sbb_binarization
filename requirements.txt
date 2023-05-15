@@ -1,4 +1,4 @@
-numpy
+numpy >=1.21
 setuptools >= 41
 opencv-python-headless
 ocrd >= 2.38.0
