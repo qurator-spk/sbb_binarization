@@ -10,6 +10,7 @@ jobs:
       - restore_cache:
           keys:
             - ocrd-resources-{{ checksum "requirements.txt" }}-{{ checksum "Makefile" }}
+      - run: python -m pip install --upgrade pip
       - run: make install
       - run: make model
       - save_cache:
@@ -27,6 +28,7 @@ jobs:
       - restore_cache:
           keys:
             - ocrd-resources-{{ checksum "requirements.txt" }}-{{ checksum "Makefile" }}
+      - run: python -m pip install --upgrade pip
       - run: make install
       - run: make model
       - save_cache:
