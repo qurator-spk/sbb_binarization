@@ -34,7 +34,7 @@ class SbbBinarizer:
 
         self.start_new_session()
 
-        self.model_files = glob('%s/*.h5' % self.model_dir)
+        self.model_files = glob(self.model_dir+"/*/", recursive = True)
 
         self.models = []
         for model_file in self.model_files:
@@ -278,6 +278,7 @@ class SbbBinarizer:
         else:
             ls_imgs  = os.listdir(dir_in)
             for image_name in ls_imgs:
+                image_stem = image_name.split('.')[0]
                 print(image_name,'image_name')
                 image = cv2.imread(os.path.join(dir_in,image_name) )
                 img_last = 0
@@ -302,4 +303,4 @@ class SbbBinarizer:
                 img_last[:, :][img_last[:, :] > 0] = 255
                 img_last = (img_last[:, :] == 0) * 255
                 
-                cv2.imwrite(os.path.join(dir_out,image_name), img_last)
+                cv2.imwrite(os.path.join(dir_out,image_stem+'.png'), img_last)
