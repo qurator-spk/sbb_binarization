@@ -240,6 +240,66 @@ class SbbBinarizer:
                         batch_indexer = 0
                         
                         img_patch = np.zeros((n_batch_inference, model_height, model_width,3))
+                        
+                    elif i==(nxf-1) and j==(nyf-1):
+                        label_p_pred = model.predict(img_patch,verbose=0)
+                        
+                        seg = np.argmax(label_p_pred, axis=3)
+                        
+                        #print(seg.shape, len(seg), len(list_i_s))
+                        
+                        indexer_inside_batch = 0
+                        for i_batch, j_batch in zip(list_i_s, list_j_s):
+                            seg_in = seg[indexer_inside_batch,:,:]
+                            seg_color = np.repeat(seg_in[:, :, np.newaxis], 3, axis=2)
+                            
+                            index_y_u_in = list_y_u[indexer_inside_batch]
+                            index_y_d_in = list_y_d[indexer_inside_batch]
+                            
+                            index_x_u_in = list_x_u[indexer_inside_batch]
+                            index_x_d_in = list_x_d[indexer_inside_batch]
+                            
+                            if i_batch == 0 and j_batch == 0:
+                                seg_color = seg_color[0 : seg_color.shape[0] - margin, 0 : seg_color.shape[1] - margin, :]
+                                prediction_true[index_y_d_in + 0 : index_y_u_in - margin, index_x_d_in + 0 : index_x_u_in - margin, :] = seg_color
+                            elif i_batch == nxf - 1 and j_batch == nyf - 1:
+                                seg_color = seg_color[margin : seg_color.shape[0] - 0, margin : seg_color.shape[1] - 0, :]
+                                prediction_true[index_y_d_in + margin : index_y_u_in - 0, index_x_d_in + margin : index_x_u_in - 0, :] = seg_color
+                            elif i_batch == 0 and j_batch == nyf - 1:
+                                seg_color = seg_color[margin : seg_color.shape[0] - 0, 0 : seg_color.shape[1] - margin, :]
+                                prediction_true[index_y_d_in + margin : index_y_u_in - 0, index_x_d_in + 0 : index_x_u_in - margin, :] = seg_color
+                            elif i_batch == nxf - 1 and j_batch == 0:
+                                seg_color = seg_color[0 : seg_color.shape[0] - margin, margin : seg_color.shape[1] - 0, :]
+                                prediction_true[index_y_d_in + 0 : index_y_u_in - margin, index_x_d_in + margin : index_x_u_in - 0, :] = seg_color
+                            elif i_batch == 0 and j_batch != 0 and j_batch != nyf - 1:
+                                seg_color = seg_color[margin : seg_color.shape[0] - margin, 0 : seg_color.shape[1] - margin, :]
+                                prediction_true[index_y_d_in + margin : index_y_u_in - margin, index_x_d_in + 0 : index_x_u_in - margin, :] = seg_color
+                            elif i_batch == nxf - 1 and j_batch != 0 and j_batch != nyf - 1:
+                                seg_color = seg_color[margin : seg_color.shape[0] - margin, margin : seg_color.shape[1] - 0, :]
+                                prediction_true[index_y_d_in + margin : index_y_u_in - margin, index_x_d_in + margin : index_x_u_in - 0, :] = seg_color
+                            elif i_batch != 0 and i_batch != nxf - 1 and j_batch == 0:
+                                seg_color = seg_color[0 : seg_color.shape[0] - margin, margin : seg_color.shape[1] - margin, :]
+                                prediction_true[index_y_d_in + 0 : index_y_u_in - margin, index_x_d_in + margin : index_x_u_in - margin, :] = seg_color
+                            elif i_batch != 0 and i_batch != nxf - 1 and j_batch == nyf - 1:
+                                seg_color = seg_color[margin : seg_color.shape[0] - 0, margin : seg_color.shape[1] - margin, :]
+                                prediction_true[index_y_d_in + margin : index_y_u_in - 0, index_x_d_in + margin : index_x_u_in - margin, :] = seg_color
+                            else:
+                                seg_color = seg_color[margin : seg_color.shape[0] - margin, margin : seg_color.shape[1] - margin, :]
+                                prediction_true[index_y_d_in + margin : index_y_u_in - margin, index_x_d_in + margin : index_x_u_in - margin, :] = seg_color
+                                
+                            indexer_inside_batch = indexer_inside_batch +1
+                                
+                        
+                        list_i_s = []
+                        list_j_s = []
+                        list_x_u = []
+                        list_x_d = []
+                        list_y_u = []
+                        list_y_d = []
+                        
+                        batch_indexer = 0
+                        
+                        img_patch = np.zeros((n_batch_inference, model_height, model_width,3))
             
             
             
