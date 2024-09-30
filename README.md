@@ -3,7 +3,8 @@
 > Document Image Binarization
 
 [![pip release](https://img.shields.io/pypi/v/sbb-binarization.svg)](https://pypi.org/project/sbb-binarization/)
-[![GHActions Tests](https://github.com/qurator-spk/sbb_binarization/actions/workflows/test.yml/badge.svg)](https://github.com/qurator-spk/sbb_binarization/actions/workflows/test.yml)
+[![GHActions CI](https://github.com/qurator-spk/sbb_binarization/actions/workflows/test.yml/badge.svg)](https://github.com/qurator-spk/sbb_binarization/actions/workflows/test.yml)
+[![GHActions CD](https://github.com/qurator-spk/sbb_binarization/actions/workflows/docker-image.yml/badge.svg)](https://github.com/qurator-spk/sbb_binarization/actions/workflows/docker-image.yml)
 
 <img src="https://user-images.githubusercontent.com/952378/63592437-e433e400-c5b1-11e9-9c2d-889c6e93d748.jpg" width="180"><img src="https://user-images.githubusercontent.com/952378/63592435-e433e400-c5b1-11e9-88e4-3e441b61fa67.jpg" width="180"><img src="https://user-images.githubusercontent.com/952378/63592440-e4cc7a80-c5b1-11e9-8964-2cd1b22c87be.jpg" width="220"><img src="https://user-images.githubusercontent.com/952378/63592438-e4cc7a80-c5b1-11e9-86dc-a9e9f8555422.jpg" width="220">
 
@@ -13,16 +14,19 @@ Python `3.7-3.10` with Tensorflow `<=2.11.1` are currently supported. While newe
 
 You can either install from PyPI via 
 
-```
-pip install sbb-binarization
-```
+    pip install sbb-binarization
+
 
 or clone the repository, enter it and install (editable) with
 
-```
-git clone git@github.com:qurator-spk/sbb_binarization.git
-cd sbb_binarization; pip install -e .
-```
+    git clone git@github.com:qurator-spk/sbb_binarization.git
+    cd sbb_binarization; pip install -e .
+
+
+Alternatively, download the prebuilt image from Dockerhub:
+
+    docker pull ocrd/sbb_binarization
+
 
 ### Models
 
