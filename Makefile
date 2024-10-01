@@ -24,6 +24,7 @@ help:
 
 # Install with pip
 install:
+	pip install -U setuptools pip
 	pip install .
 
 # Downloads the pre-trained models from qurator-data.de
