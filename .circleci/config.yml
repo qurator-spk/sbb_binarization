@@ -19,6 +19,7 @@ jobs:
           paths:
             ocrd-resources
       - run: make test
+    resource_class: large
 
 
 workflows:
