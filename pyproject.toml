@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "setuptools-ocrd"]
+
+[project]
+name = "sbb_binarization"
+authors = [
+    {name = "Vahid Rezanezhad"},
+    {name = "Staatsbibliothek zu Berlin - Preußischer Kulturbesitz"},
+]
+description = "Pixelwise binarization with selectional auto-encoders in Keras"
+readme = "README.md"
+license.file = "LICENSE"
+requires-python = ">=3.8"
+
+dynamic = ["dependencies", "version"]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+
+[project.scripts]
+sbb_binarize = "sbb_binarize.cli:main"
+ocrd-sbb-binarize = "sbb_binarize.ocrd_cli:cli"
+
+[project.urls]
+Homepage = "https://github.com/qurator-spk/sbb_binarization"
+Repository = "https://github.com/qurator-spk/sbb_binarization.git"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sbb_binarize"]
+namespaces = false
+
+[tool.setuptools.package-data]
+sbb_binarize = ["sbb_binarize/*.json"]
