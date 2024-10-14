@@ -1,7 +1,7 @@
 # BEGIN-EVAL makefile-parser --make-help Makefile
 
 DOCKER_BASE_IMAGE = docker.io/ocrd/core:v2.69.0
-DOCKER_TAG = ocrd/nmalign
+DOCKER_TAG = ocrd/sbb_binarization
 
 .PHONY: help install
 help:
