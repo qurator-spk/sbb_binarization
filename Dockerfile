@@ -9,7 +9,7 @@ LABEL \
     org.label-schema.build-date=$BUILD_DATE
 
 WORKDIR /build/sbb_binarization
-COPY setup.py .
+COPY pyproject.toml .
 COPY ocrd-tool.json .
 COPY sbb_binarize ./sbb_binarize
 COPY requirements.txt .
