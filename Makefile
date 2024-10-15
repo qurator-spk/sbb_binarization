@@ -1,6 +1,7 @@
 # BEGIN-EVAL makefile-parser --make-help Makefile
 
-DOCKER_BASE_IMAGE = docker.io/ocrd/core:v2.69.0
+# should really be core-cuda-tf2, but not as long as we must restrict TF2 minor version
+DOCKER_BASE_IMAGE = docker.io/ocrd/core-cuda:v2.69.0
 DOCKER_TAG = ocrd/sbb_binarization
 
 .PHONY: help install
