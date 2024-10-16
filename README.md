@@ -10,7 +10,7 @@
 
 ## Installation
 
-Python `3.7-3.10` with Tensorflow `<=2.11.1` are currently supported. While newer versions might also work, we currently don't test this.
+Python `3.8-3.11` with Tensorflow `<2.13` are currently supported. While newer versions might also work, we currently don't test this.
 
 You can either install from PyPI via 
 
