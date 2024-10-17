@@ -35,9 +35,9 @@ Pre-trained models can be downloaded from the locations below. We also provide m
 | Version    |      Format   |  Download                                                                                            |
 |------------|:-------------:|------------------------------------------------------------------------------------------------------|
 | 2021-03-09 |  `SavedModel` | https://github.com/qurator-spk/sbb_binarization/releases/download/v0.0.11/saved_model_2021_03_09.zip |
-| 2021-03-09 |  `HDF5` | https://qurator-data.de/sbb_binarization/2021-03-09/models.tar.gz                                          |
-| 2020-01-16 | `SavedModel` | https://github.com/qurator-spk/sbb_binarization/releases/download/v0.0.11/saved_model_2020_01_16.zip  |
-| 2020-01-16 |  `HDF5` | https://qurator-data.de/sbb_binarization/2020-01-16/models.tar.gz                                          |
+| 2021-03-09 |  `HDF5`       | https://qurator-data.de/sbb_binarization/2021-03-09/models.tar.gz                                    |
+| 2020-01-16 | `SavedModel`  | https://github.com/qurator-spk/sbb_binarization/releases/download/v0.0.11/saved_model_2020_01_16.zip |
+| 2020-01-16 |  `HDF5`       | https://qurator-data.de/sbb_binarization/2020-01-16/models.tar.gz                                    |
 
 With [OCR-D](https://ocr-d.de/), you can also use the [Resource Manager](https://ocr-d.de/en/models), e.g.
 
@@ -78,3 +78,17 @@ For simple smoke tests, the following will
         make models
         make test
     
+## How to cite
+If you find this tool useful in your work, please consider citing our paper:
+
+```bibtex
+@inproceedings{hip23rezanezhad2,
+author    = {Vahid Rezanezhad and Konstantin Baierer and Clemens Neudecker},
+editor    = {Apostolos Antonacopoulos and Christian Clausner and Maud Ehrmann and Kai Labusch and Clemens Neudecker},
+title     = {A hybrid CNN-Transformer Model for Historical Document Image Binarization},
+booktitle = {Proceedings of the 7th International Workshop on Historical Document Imaging and Processing {HIP} 2023, 
+             San José, CA, USA, August 26, 2023},
+year      = {2023},
+url       = {https://doi.org/10.1145/3604951.3605508}
+}
+```
