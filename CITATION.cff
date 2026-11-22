@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "sbb_binarization"
+abstract: "Pixelwise binarization with selectional auto-encoders in Keras"
+type: software
+version: v0.1.0
+license: Apache-2.0
+authors:
+  - family-names: "Rezanezhad"
+    given-names: "Vahid"
+repository-code: "https://github.com/qurator-spk/sbb_binarization"
